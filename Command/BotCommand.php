@@ -7,9 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use React\EventLoop;
-use React\Socket;
-use React\Stream;
+use Whisnet\IrcBotBundle\Connection\Socket;
 
 use Whisnet\IrcBotBundle\IrcBot\Parser;
 use Whisnet\IrcBotBundle\Event\CommandFoundEvent;
@@ -19,6 +17,9 @@ use Whisnet\IrcBotBundle\Commands\UserCommand;
 use Whisnet\IrcBotBundle\Commands\NickCommand;
 use Whisnet\IrcBotBundle\Commands\JoinCommand;
 use Whisnet\IrcBotBundle\Commands\PrivMsgCommand;
+
+use Whisnet\IrcBotBundle\Message\Message;
+
 use Whisnet\IrcBotBundle\Parse\ParseCommand;
 
 class BotCommand extends ContainerAwareCommand
@@ -35,18 +36,21 @@ class BotCommand extends ContainerAwareCommand
     {
         $dispatcher = $this->getContainer()->get('event_dispatcher');
 
-        $loop = EventLoop\Factory::create();
+        $socket = new Socket();
+        $socket->setServer('irc.freenode.net');
+        $socket->setPort('6667');
+        $socket->connect();
 
-        $socket = new Socket\Connection(stream_socket_client('irc.freenode.net:6667'), $loop);
-        $socket->pipe(new Stream\Stream(STDOUT, $loop));
+        $socket->sendData((string)new UserCommand(array('username' => 'IrcBotBundle')));
+        $socket->sendData((string)new NickCommand(array('nickname' => 'IrcBotBundle')));
+        $socket->sendData((string)new JoinCommand(array('channel' => '#test-irc')));
+        $socket->sendData((string)new PrivMsgCommand(array('receiver' => array('#test-irc'),
+                                                           'text' => (string)new Message('Witam wszystkich!'))));
 
-        $socket->write((string)new UserCommand(array('username' => 'IrcBotBundle')));
-        $socket->write((string)new NickCommand(array('nickname' => 'IrcBotBundle')));
-        $socket->write((string)new JoinCommand(array('channel' => '#test-irc')));
-        $socket->write((string)new PrivMsgCommand(array('receiver' => array('#test-irc'),
-                                                        'text' => 'Witam wszystkich!')));
+        do {
+            $data = $socket->getData();
+            echo $data;
 
-        $socket->on('data', function ($data) use ($socket, $dispatcher) {
             $parse = new ParseCommand();
             $parse->parse('!bot', $data);
 
@@ -58,8 +62,6 @@ class BotCommand extends ContainerAwareCommand
 
                 $dispatcher->dispatch('whisnet_irc_bot.command_'.$parse->getCommand(), $event);
             }
-        });
-
-        $loop->run();
+        } while(true);
     }
 }

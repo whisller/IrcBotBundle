@@ -24,9 +24,5 @@ class WhisnetIrcBotExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-
-        $container->getDefinition('whisnet_irc_bot.ping_listener')->addTag('whisnet_irc_bot.command');
-        $container->getDefinition('whisnet_irc_bot.help_listener')->addTag('whisnet_irc_bot.command');
-        $container->getDefinition('whisnet_irc_bot.datetime_listener')->addTag('whisnet_irc_bot.command');
     }
 }

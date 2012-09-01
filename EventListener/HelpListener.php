@@ -3,6 +3,9 @@ namespace Whisnet\IrcBotBundle\EventListener;
 
 use Whisnet\IrcBotBundle\EventListener\BaseListener;
 
+use Whisnet\IrcBotBundle\Commands\PrivMsgCommand;
+use Whisnet\IrcBotBundle\Message\Message;
+
 class HelpListener extends BaseListener
 {
     private $dispatcher;
@@ -12,13 +15,11 @@ class HelpListener extends BaseListener
         $this->dispatcher = $dispatcher;
     }
 
-    public function getCommandName()
+    public function onCommand($event)
     {
-        return 'help';
-    }
+        $msg = (string)new PrivMsgCommand(array('receiver' => $event->getChannel(),
+                                                'text' => (string)new Message('HELP is not available ;)')));
 
-    public function executeCommand($event)
-    {
-        var_dump($this->dispatcher->getListeners('whisnet_irc_bot.command'));
+        $event->getConnection()->sendData($msg);
     }
 }

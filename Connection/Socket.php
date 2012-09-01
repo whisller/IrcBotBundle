@@ -81,7 +81,7 @@ namespace Whisnet\IrcBotBundle\Connection;
          * @return int|boolean the number of bytes written, or FALSE on error.
          */
         public function sendData( $data ) {
-            return fwrite( $this->socket, $data . "\r\n" );
+            return fwrite( $this->socket, $data );
         }
 
         /**

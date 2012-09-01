@@ -25,6 +25,6 @@ class DateTimeListener extends BaseListener
         $msg = (string)new PrivMsgCommand(array('receiver' => $event->getChannel(),
                                                 'text' => (string)new Message($dateTime->format('Y-m-d H:i:s'))));
 
-        $event->getConnection()->write($msg);
+        $event->getConnection()->sendData($msg);
     }
 }
