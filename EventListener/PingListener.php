@@ -7,7 +7,7 @@ class PingListener extends BaseListener
 {
     public function getCommandName()
     {
-        return 'PING';
+        return 'ping';
     }
 
     public function executeCommand($event)

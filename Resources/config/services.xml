@@ -18,7 +18,12 @@
             <tag name="kernel.event_listener" event="whisnet_irc_bot.command" method="onCommand" />
         </service>
 
-        <service id="whisnet_irc_bot.time_listener" class="Whisnet\IrcBotBundle\EventListener\TimeListener">
+        <service id="whisnet_irc_bot.help_listener" class="Whisnet\IrcBotBundle\EventListener\HelpListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.command" method="onCommand" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="whisnet_irc_bot.datetime_listener" class="Whisnet\IrcBotBundle\EventListener\DateTimeListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.command" method="onCommand" />
         </service>
     </services>

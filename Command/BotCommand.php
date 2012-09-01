@@ -39,6 +39,10 @@ class BotCommand extends ContainerAwareCommand
         $irc->setConnection($socket);
         $irc->login();
 
+        $loop->addTimer(1, function() use ($irc){
+            $irc->write('pong',time());
+        });
+
         $dispatcher = $this->getContainer()->get('event_dispatcher');
 
         $socket->on('data', function ($data) use ($socket, $parser, $dispatcher, $irc) {

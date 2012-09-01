@@ -34,6 +34,7 @@ class WhisnetIrcBotExtension extends Extension
         $container->setParameter('whisnet_irc_bot.parser_class', $config['parser_class']);
 
         $container->getDefinition('whisnet_irc_bot.ping_listener')->addTag('whisnet_irc_bot.command');
-        $container->getDefinition('whisnet_irc_bot.time_listener')->addTag('whisnet_irc_bot.command');
+        $container->getDefinition('whisnet_irc_bot.help_listener')->addTag('whisnet_irc_bot.command');
+        $container->getDefinition('whisnet_irc_bot.datetime_listener')->addTag('whisnet_irc_bot.command');
     }
 }

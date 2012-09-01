@@ -23,7 +23,7 @@ class CommandEvent extends Event
 
     public function setArguments(array $arguments)
     {
-        $this->arguments = array();
+        $this->arguments = $arguments;
     }
 
     public function getArguments()

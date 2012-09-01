@@ -32,7 +32,7 @@ class Irc
 
     public function sendMessageToCurrentChannel($msg)
     {
-        $this->write('PRIVMSG '.$this->joinChannel, $msg);
+        $this->write('PRIVMSG '.$this->joinChannel.' :', $msg);
     }
 
     public function __call($name, $arguments)

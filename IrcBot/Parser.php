@@ -27,10 +27,8 @@ class Parser implements ParserInterface
                 $result = $this->getCommand($matches[2]);
             }
         } elseif (preg_match('/^PING (.*)/', $data, $matches)) {
-            $result = $matches[1];
+            $result = array('ping', $this->cleanString($matches[1]));
         }
-
-        
 
         return $result;
     }
