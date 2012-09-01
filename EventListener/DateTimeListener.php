@@ -3,14 +3,12 @@ namespace Whisnet\IrcBotBundle\EventListener;
 
 use Whisnet\IrcBotBundle\EventListener\BaseListener;
 
+use Whisnet\IrcBotBundle\Commands\PrivMsgCommand;
+use Whisnet\IrcBotBundle\Message\Message;
+
 class DateTimeListener extends BaseListener
 {
-    public function getCommandName()
-    {
-        return 'time';
-    }
-
-    public function executeCommand($event)
+    public function onCommand($event)
     {
         $arguments = $event->getArguments();
 
@@ -24,6 +22,9 @@ class DateTimeListener extends BaseListener
 
         $dateTime = new \DateTime('now', new \DateTimeZone($timezone));
 
-        $event->getIrc()->sendMessageToCurrentChannel($dateTime->format('Y-m-d H:i:s'));
+        $msg = (string)new PrivMsgCommand(array('receiver' => $event->getChannel(),
+                                                'text' => (string)new Message($dateTime->format('Y-m-d H:i:s'))));
+
+        $event->getConnection()->write($msg);
     }
 }

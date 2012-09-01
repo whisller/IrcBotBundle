@@ -12,8 +12,14 @@ use React\Socket;
 use React\Stream;
 
 use Whisnet\IrcBotBundle\IrcBot\Parser;
-use Whisnet\IrcBotBundle\Event\CommandEvent;
+use Whisnet\IrcBotBundle\Event\CommandFoundEvent;
 use Whisnet\IrcBotBundle\IrcBot\Irc;
+
+use Whisnet\IrcBotBundle\Commands\UserCommand;
+use Whisnet\IrcBotBundle\Commands\NickCommand;
+use Whisnet\IrcBotBundle\Commands\JoinCommand;
+use Whisnet\IrcBotBundle\Commands\PrivMsgCommand;
+use Whisnet\IrcBotBundle\Parse\ParseCommand;
 
 class BotCommand extends ContainerAwareCommand
 {
@@ -27,34 +33,30 @@ class BotCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $loop = EventLoop\Factory::create();
-
-        $server = $this->getContainer()->getParameter('whisnet_irc_bot.server');
-
-        $socket = new Socket\Connection(stream_socket_client($server['host'].':'.$server['port']), $loop);
-        $socket->pipe(new Stream\Stream(STDOUT, $loop));
-
-        $parser = $this->getContainer()->get('whisnet_irc_bot.parser');
-        $irc = $this->getContainer()->get('whisnet_irc_bot.irc');
-        $irc->setConnection($socket);
-        $irc->login();
-
-        $loop->addTimer(1, function() use ($irc){
-            $irc->write('pong',time());
-        });
-
         $dispatcher = $this->getContainer()->get('event_dispatcher');
 
-        $socket->on('data', function ($data) use ($socket, $parser, $dispatcher, $irc) {
-            $args = $parser->parse($data, $socket);
+        $loop = EventLoop\Factory::create();
 
-            if (0 < count($args)) {
-                $event = new CommandEvent();
-                $event->setCommand($args[0]);
-                $event->setArguments(array_slice($args, 1));
-                $event->setIrc($irc);
+        $socket = new Socket\Connection(stream_socket_client('irc.freenode.net:6667'), $loop);
+        $socket->pipe(new Stream\Stream(STDOUT, $loop));
 
-                $dispatcher->dispatch('whisnet_irc_bot.command', $event);
+        $socket->write((string)new UserCommand(array('username' => 'IrcBotBundle')));
+        $socket->write((string)new NickCommand(array('nickname' => 'IrcBotBundle')));
+        $socket->write((string)new JoinCommand(array('channel' => '#test-irc')));
+        $socket->write((string)new PrivMsgCommand(array('receiver' => array('#test-irc'),
+                                                        'text' => 'Witam wszystkich!')));
+
+        $socket->on('data', function ($data) use ($socket, $dispatcher) {
+            $parse = new ParseCommand();
+            $parse->parse('!bot', $data);
+
+            if ($parse->isCommand()) {
+                $event = new CommandFoundEvent();
+                $event->setConnection($socket);
+                $event->setChannel($parse->getChannel());
+                $event->setArguments($parse->getArguments());
+
+                $dispatcher->dispatch('whisnet_irc_bot.command_'.$parse->getCommand(), $event);
             }
         });
 

@@ -5,15 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="whisnet_irc_bot.parser" class="%whisnet_irc_bot.parser_class%">
-            <argument>%whisnet_irc_bot.command_prefix%</argument>
-        </service>
-
-        <service id="whisnet_irc_bot.irc" class="%whisnet_irc_bot.irc_class%">
-            <argument>%whisnet_irc_bot.user%</argument>
-            <argument>%whisnet_irc_bot.join_channel%</argument>
-        </service>
-
         <service id="whisnet_irc_bot.ping_listener" class="Whisnet\IrcBotBundle\EventListener\PingListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.command" method="onCommand" />
         </service>
@@ -24,7 +15,7 @@
         </service>
 
         <service id="whisnet_irc_bot.datetime_listener" class="Whisnet\IrcBotBundle\EventListener\DateTimeListener">
-            <tag name="kernel.event_listener" event="whisnet_irc_bot.command" method="onCommand" />
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.command_time" method="onCommand" />
         </service>
     </services>
 
