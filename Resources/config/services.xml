@@ -4,17 +4,23 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
-    <parameters>
-        <parameter key="whisnet_irc_bot.example.class">Whisnet\IrcBotBundle\Example</parameter>
-    </parameters>
-
     <services>
-        <service id="whisnet_irc_bot.example" class="%whisnet_irc_bot.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="whisnet_irc_bot.parser" class="%whisnet_irc_bot.parser_class%">
+            <argument>%whisnet_irc_bot.command_prefix%</argument>
+        </service>
+
+        <service id="whisnet_irc_bot.irc" class="%whisnet_irc_bot.irc_class%">
+            <argument>%whisnet_irc_bot.user%</argument>
+            <argument>%whisnet_irc_bot.join_channel%</argument>
+        </service>
+
+        <service id="whisnet_irc_bot.ping_listener" class="Whisnet\IrcBotBundle\EventListener\PingListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.command" method="onCommand" />
+        </service>
+
+        <service id="whisnet_irc_bot.time_listener" class="Whisnet\IrcBotBundle\EventListener\TimeListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.command" method="onCommand" />
         </service>
     </services>
-    -->
+
 </container>

@@ -20,9 +20,40 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('whisnet_irc_bot');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('irc_class')
+                    ->defaultValue('Whisnet\IrcBotBundle\IrcBot\Irc')
+                ->end()
+                ->scalarNode('parser_class')
+                    ->defaultValue('Whisnet\IrcBotBundle\IrcBot\Parser')
+                ->end()
+                ->arrayNode('user')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('username')->defaultValue('IrcBotBundle')->end()
+                        ->scalarNode('hostname')->defaultValue('READ')->end()
+                        ->scalarNode('servername')->defaultValue('IrcBotBundle')->end()
+                        ->scalarNode('realname')->defaultValue(':IrcBotBundle')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('server')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('host')->defaultValue('irc.freenode.net')->end()
+                        ->scalarNode('port')->defaultValue('6667')->end()
+                    ->end()
+                ->end()
+                ->scalarNode('command_prefix')
+                    ->defaultValue('!bot')
+                    ->beforeNormalization()
+                        ->ifString()->then(function($v){ return preg_quote($v); })
+                    ->end()
+                ->end()
+                ->scalarNode('join_channel')
+                    ->defaultValue('#test-irc')
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }
