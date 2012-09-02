@@ -21,6 +21,7 @@ use Whisnet\IrcBotBundle\Message\Message;
 
 use Whisnet\IrcBotBundle\Parse\ParseBotCommand;
 use Whisnet\IrcBotBundle\Parse\ParseServerCommand;
+use Whisnet\IrcBotBundle\Parse\ParseServerFalseResponse;
 
 class BotCommand extends ContainerAwareCommand
 {
@@ -50,14 +51,16 @@ class BotCommand extends ContainerAwareCommand
 
         do {
             $data = $socket->getData();
-            echo $data;
+            var_dump($data);
 
             $parseServerCommand = new ParseServerCommand(array('connection' => $socket));
             $parseBotCommand = new ParseBotCommand(array('connection' => $socket,
                                                          'dispatcher' => $dispatcher,
                                                          'prefix' => '!bot'));
+            $parseServerFalseResponse = new ParseServerFalseResponse(array('connection' => $socket));
 
             $parseServerCommand->setSuccessor($parseBotCommand);
+            $parseBotCommand->setSuccessor($parseServerFalseResponse);
 
             $parseServerCommand->parse($data);
         } while(true);

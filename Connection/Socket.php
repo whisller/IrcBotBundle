@@ -59,7 +59,7 @@ namespace Whisnet\IrcBotBundle\Connection;
          * Establishs the connection to the server.
          */
         public function connect() {
-            $this->socket = fsockopen( $this->server, $this->port );
+            $this->socket = stream_socket_client( $this->server.':'.$this->port, $errno, $errstr, ini_get("default_socket_timeout"), STREAM_CLIENT_CONNECT );
             if (!$this->isConnected()) {
                 throw new Exception( 'Unable to connect to server via fsockopen with server: "' . $this->server . '" and port: "' . $this->port . '".' );
             }
@@ -71,7 +71,7 @@ namespace Whisnet\IrcBotBundle\Connection;
          * @return boolean True if the connection was closed. False otherwise.
          */
         public function disconnect() {
-            return fclose( $this->socket );
+            return stream_socket_shutdown( $this->socket );
         }
 
         /**
@@ -90,7 +90,7 @@ namespace Whisnet\IrcBotBundle\Connection;
          * @return string|boolean The data as string, or false if no data is available or an error occured.
          */
         public function getData() {
-            return fgets( $this->socket, 256 );
+            return fgets( $this->socket );
         }
 
         /**

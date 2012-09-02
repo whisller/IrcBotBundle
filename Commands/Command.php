@@ -3,7 +3,7 @@ namespace Whisnet\IrcBotBundle\Commands;
 
 abstract class Command
 {
-    const POSTFIX = "\r\n";
+    const POSTFIX = "\r";
 
     protected $args = array();
 

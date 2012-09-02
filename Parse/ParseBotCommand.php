@@ -34,6 +34,8 @@ class ParseBotCommand extends Parse
                     $this->arguments['dispatcher']->dispatch('whisnet_irc_bot.command_'.$command, $event);
                 }
             }
+        } else {
+            $this->successor->parse($data);
         }
     }
 }
