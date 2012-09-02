@@ -5,10 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="whisnet_irc_bot.ping_listener" class="Whisnet\IrcBotBundle\EventListener\PingListener">
-            <tag name="kernel.event_listener" event="whisnet_irc_bot.command" method="onCommand" />
-        </service>
-
         <service id="whisnet_irc_bot.help_listener" class="Whisnet\IrcBotBundle\EventListener\HelpListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.command_help" method="onCommand" />
             <argument type="service" id="event_dispatcher" />
