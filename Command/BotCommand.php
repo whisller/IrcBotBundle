@@ -10,7 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Whisnet\IrcBotBundle\Connection\Socket;
 
 use Whisnet\IrcBotBundle\IrcBot\Parser;
-use Whisnet\IrcBotBundle\Event\CommandFoundEvent;
 use Whisnet\IrcBotBundle\IrcBot\Irc;
 
 use Whisnet\IrcBotBundle\Commands\UserCommand;
@@ -20,7 +19,8 @@ use Whisnet\IrcBotBundle\Commands\PrivMsgCommand;
 
 use Whisnet\IrcBotBundle\Message\Message;
 
-use Whisnet\IrcBotBundle\Parse\ParseCommand;
+use Whisnet\IrcBotBundle\Parse\ParseBotCommand;
+use Whisnet\IrcBotBundle\Parse\ParseServerCommand;
 
 class BotCommand extends ContainerAwareCommand
 {
@@ -42,6 +42,7 @@ class BotCommand extends ContainerAwareCommand
         $socket->connect();
 
         $socket->sendData((string)new UserCommand(array('username' => 'IrcBotBundle')));
+        //$socket->sendData('USER d');
         $socket->sendData((string)new NickCommand(array('nickname' => 'IrcBotBundle')));
         $socket->sendData((string)new JoinCommand(array('channel' => '#test-irc')));
         $socket->sendData((string)new PrivMsgCommand(array('receiver' => array('#test-irc'),
@@ -51,17 +52,14 @@ class BotCommand extends ContainerAwareCommand
             $data = $socket->getData();
             echo $data;
 
-            $parse = new ParseCommand();
-            $parse->parse('!bot', $data);
+            $parseServerCommand = new ParseServerCommand(array('connection' => $socket));
+            $parseBotCommand = new ParseBotCommand(array('connection' => $socket,
+                                                         'dispatcher' => $dispatcher,
+                                                         'prefix' => '!bot'));
 
-            if ($parse->isCommand()) {
-                $event = new CommandFoundEvent();
-                $event->setConnection($socket);
-                $event->setChannel($parse->getChannel());
-                $event->setArguments($parse->getArguments());
+            $parseServerCommand->setSuccessor($parseBotCommand);
 
-                $dispatcher->dispatch('whisnet_irc_bot.command_'.$parse->getCommand(), $event);
-            }
+            $parseServerCommand->parse($data);
         } while(true);
     }
 }
