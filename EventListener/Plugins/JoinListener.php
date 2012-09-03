@@ -2,7 +2,6 @@
 namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
 use Whisnet\IrcBotBundle\EventListener\Plugins\BaseListener;
-
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
 use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
