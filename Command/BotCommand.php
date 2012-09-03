@@ -8,15 +8,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Whisnet\IrcBotBundle\Connection\Socket;
-
 use Whisnet\IrcBotBundle\Event\DataFromServerEvent;
-
 use Whisnet\IrcBotBundle\IrcCommands\UserCommand;
 use Whisnet\IrcBotBundle\IrcCommands\NickCommand;
 use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
 use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
-
 use Whisnet\IrcBotBundle\Message\Message;
+use Whisnet\IrcBotBundle\Utils\Utils;
 
 /**
  * @author Daniel Ancuta <whisller@gmail.com>
@@ -63,20 +61,13 @@ class BotCommand extends ContainerAwareCommand
         $socket->sendData((string)$privMsgCommand);
 
         do {
-            $data = $socket->getData();
-            $patterns[0] = "/\r/";
-            $patterns[1] = "/\r\n/";
-            $patterns[2] = "/\n/";
-            $replacements[0] = '';
-            $replacements[1] = '';
-            $replacements[2] = '';
-            $data = preg_replace($patterns, $replacements, $data);
+            $data = Utils::cleanUpServeRequest($socket->getData());
 
             var_dump($data);
 
             $event = new DataFromServerEvent();
-            $event->setData($data);
-            $event->setConnection($socket);
+            $event->setData($data)->setConnection($socket);
+
             $dispatcher->dispatch('whisnet_irc_bot.data_from_server', $event);
         } while(true);
     }

@@ -24,10 +24,13 @@ class DataFromServerEvent extends Event
 
     /**
      * @param string $data
+     * @return DataFromServerEvent
      */
     public function setData($data)
     {
         $this->data = $data;
+
+        return $this;
     }
 
     /**
@@ -40,10 +43,13 @@ class DataFromServerEvent extends Event
 
     /**
      * @param Socket $connection
+     * @return DataFromServerEvent
      */
     public function setConnection(Socket $connection)
     {
         $this->connection = $connection;
+
+        return $this;
     }
 
     /**
