@@ -12,14 +12,6 @@ class Utils
      */
     public static function cleanUpServeRequest($data)
     {
-        $patterns[0] = "/\r/";
-        $patterns[1] = "/\r\n/";
-        $patterns[2] = "/\n/";
-        $replacements[0] = '';
-        $replacements[1] = '';
-        $replacements[2] = '';
-        $data = preg_replace($patterns, $replacements, $data);
-
-        return $data;
+        return preg_replace('/[\r\n]/', '', $data);
     }
 }
