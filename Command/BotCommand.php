@@ -42,12 +42,27 @@ class BotCommand extends ContainerAwareCommand
         $socket->setPort('6667');
         $socket->connect();
 
-        $socket->sendData((string)new UserCommand(array('username' => 'IrcBotBundle')));
-        //$socket->sendData('USER d');
-        $socket->sendData((string)new NickCommand(array('nickname' => 'IrcBotBundle')));
-        $socket->sendData((string)new JoinCommand(array('channel' => '#test-irc')));
-        $socket->sendData((string)new PrivMsgCommand(array('receiver' => array('#test-irc'),
-                                                           'text' => (string)new Message('Witam wszystkich!'))));
+        $validator = $this->getContainer()->get('validator');
+
+        $userCommand = new UserCommand($validator);
+        $userCommand->setUsername('IrcBotBundle');
+        $userCommand->validate();
+        $socket->sendData((string)$userCommand);
+
+        $nickCommand = new NickCommand($validator);
+        $nickCommand->setNickname('IrcBotBundle');
+        $nickCommand->validate();
+        $socket->sendData((string)$nickCommand);
+
+        $joinCommand = new JoinCommand($validator);
+        $joinCommand->addChannel('#test-irc');
+        $joinCommand->validate();
+        $socket->sendData((string)$joinCommand);
+
+        $privMsgCommand = new PrivMsgCommand($validator);
+        $privMsgCommand->addReceiver('#test-irc');
+        $privMsgCommand->setText((string)new Message('Witam wszystkich!'));
+        $socket->sendData((string)$privMsgCommand);
 
         do {
             $data = $socket->getData();

@@ -27,9 +27,10 @@ class DateTimeListener extends BaseListener
 
         $dateTime = new \DateTime('now', new \DateTimeZone($timezone));
 
-        $msg = (string)new PrivMsgCommand(array('receiver' => $event->getChannel(),
-                                                'text' => (string)new Message($dateTime->format('Y-m-d H:i:s'))));
+        $privMsgCommand = new PrivMsgCommand($this->validator);
+        $privMsgCommand->addReceiver($event->getChannel());
+        $privMsgCommand->setText((string)new Message($dateTime->format('Y-m-d H:i:s')));
 
-        $event->getConnection()->sendData($msg);
+        $event->getConnection()->sendData((string)$privMsgCommand);
     }
 }

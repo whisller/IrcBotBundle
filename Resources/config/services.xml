@@ -7,11 +7,12 @@
     <services>
         <service id="whisnet_irc_bot.help_listener" class="Whisnet\IrcBotBundle\EventListener\HelpListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.command_help" method="onCommand" />
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="event_dispatcher"/>
         </service>
 
         <service id="whisnet_irc_bot.datetime_listener" class="Whisnet\IrcBotBundle\EventListener\DateTimeListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.command_time" method="onCommand" />
+            <argument type="service" id="validator"/>
         </service>
     </services>
 

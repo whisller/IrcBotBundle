@@ -1,26 +1,41 @@
 <?php
 namespace Whisnet\IrcBotBundle\Commands;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class UserCommand extends Command
 {
+    /**
+     * @Assert\NotBlank()
+     */
+    private $username;
+    private $hostname;
+    private $servername;
+    private $realname;
+
     protected function getName()
     {
         return 'USER';
     }
 
-    public function validate()
+    public function setUsername($username)
     {
-        if (!isset($this->args['username'])) {
-            throw new CommandException('username: is required');
-        } else {
-            $this->args['username'] = trim($this->args['username']);
+        $this->username = trim($username);
+    }
 
-            if ('' === $this->args['username']) {
-                throw new CommandException('username: is required');
-            }
-        }
+    public function setHostname($hostname)
+    {
+        $this->hostname = trim($hostname);
+    }
 
-        return true;
+    public function setServername($servername)
+    {
+        $this->servername = trim($servername);
+    }
+
+    public function setRealname($realname)
+    {
+        $this->realname = trim($realname);
     }
 
     /**
@@ -30,10 +45,10 @@ class UserCommand extends Command
     {
         $result = '';
 
-        $result = $this->args['username'].' ';
-        $result .= isset($this->args['hostname']) ? $this->args['hostname'] : 'example.com'.' ';
-        $result .= isset($this->args['servername']) ? $this->args['servername'] : $this->args['username'].' ';
-        $result .= ':'.(isset($this->args['realname']) ? $this->args['realname'] : $this->args['username']);
+        $result = $this->username.' ';
+        $result .= isset($this->hostname) ? $this->hostname : 'example.com'.' ';
+        $result .= isset($this->servername) ? $this->servername : $this->username.' ';
+        $result .= ':'.(isset($this->realname) ? $this->realname : $this->username);
 
         return $result;
     }

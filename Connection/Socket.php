@@ -71,7 +71,7 @@ namespace Whisnet\IrcBotBundle\Connection;
          * @return boolean True if the connection was closed. False otherwise.
          */
         public function disconnect() {
-            return stream_socket_shutdown( $this->socket );
+            return stream_socket_shutdown( $this->socket, STREAM_SHUT_WR );
         }
 
         /**

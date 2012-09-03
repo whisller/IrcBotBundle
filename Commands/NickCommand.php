@@ -1,32 +1,31 @@
 <?php
 namespace Whisnet\IrcBotBundle\Commands;
 
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 class NickCommand extends Command
 {
+    /**
+     * @NotBlank()
+     */
+    private $nickname;
+
     public function getName()
     {
         return 'NICK';
     }
 
-    public function validate()
+    public function setNickname($nickname)
     {
-        if (!isset($this->args['nickname'])) {
-            throw new CommandException('nickname: is required');
-        } else {
-            $this->args['nickname'] = trim($this->args['nickname']);
-
-            if ('' === $this->args['nickname']) {
-                throw new CommandException('nickname: is required');
-            }
-        }
+        $this->nickname = trim($nickname);
     }
 
-   protected function getArguments()
-   {
-       $result = '';
+    protected function getArguments()
+    {
+        $result = '';
 
-       $result = $this->args['nickname'];
+        $result = $this->nickname;
 
-       return $result;
-   }
+        return $result;
+    }
 }

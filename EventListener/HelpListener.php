@@ -17,9 +17,5 @@ class HelpListener extends BaseListener
 
     public function onCommand($event)
     {
-        $msg = (string)new PrivMsgCommand(array('receiver' => $event->getChannel(),
-                                                'text' => (string)new Message('HELP is not available ;)')));
-
-        $event->getConnection()->sendData($msg);
     }
 }

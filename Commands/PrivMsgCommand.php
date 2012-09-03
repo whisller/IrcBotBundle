@@ -1,38 +1,39 @@
 <?php
 namespace Whisnet\IrcBotBundle\Commands;
 
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 class PrivMsgCommand extends Command
 {
+    /**
+     * @NotBlank()
+     */
+    private $receiver;
+
+    /**
+     * @NotBlank()
+     */
+    private $text;
+
     protected function getName()
     {
         return 'PRIVMSG';
     }
 
-    protected function validate()
+    public function addReceiver($receiver)
     {
-        if (!isset($this->args['receiver'])) {
-            throw new CommandException('receiver: is required');
+        if ('' !== trim($receiver)) {
+            $this->receiver[] = $receiver;
         }
+    }
 
-        if (is_string($this->args['receiver'])) {
-            if ('' === trim($this->args['receiver'])) {
-                throw new CommandException('receiver: is required');
-            } else {
-                $this->args['receiver'] = array($this->args['receiver']);
-            }
-        }
-
-        if (!isset($this->args['text'])) {
-            throw new CommandException('text: is required');
-        } elseif ('' === trim($this->args['text'])) {
-            throw new CommandException('text: is required');
-        }
-
-        return true;
+    public function setText($text)
+    {
+        $this->text = trim($text);
     }
 
     protected function getArguments()
     {
-        return implode(',', $this->args['receiver']).' :'.$this->args['text'];
+        return implode(',', $this->receiver).' :'.$this->text;
     }
 }
