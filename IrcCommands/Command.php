@@ -1,19 +1,32 @@
 <?php
-namespace Whisnet\IrcBotBundle\Commands;
+namespace Whisnet\IrcBotBundle\IrcCommands;
 
 use Symfony\Component\Validator\ValidatorInterface;
 
+/**
+ * @author Daniel Ancuta <whisller@gmail.com>
+ */
 abstract class Command
 {
     const POSTFIX = "\r";
 
+    /**
+     * @var ValidatorInterface
+     */
     protected $validator;
 
+    /**
+     * @param ValidatorInterface $validator
+     */
     public function __construct(ValidatorInterface $validator)
     {
         $this->validator = $validator;
     }
 
+    /**
+     * @return boolean
+     * @throws CommandException
+     */
     public function validate()
     {
         $errors = $this->validator->validate($this);
@@ -31,11 +44,27 @@ abstract class Command
         return true;
     }
 
+    /**
+     * Return name of the command.
+     *
+     * @return string
+     */
     abstract protected function getName();
+
+    /**
+     * Parse arguments and implode it to one string.
+     *
+     * @return string
+     */
     abstract protected function getArguments();
 
+    /**
+     * Return prepared command with arguments.
+     *
+     * @return string
+     */
     public function __toString()
     {
-        return  $this->getName().' '.$this->getArguments().Command::POSTFIX;
+        return $this->getName().' '.$this->getArguments().Command::POSTFIX;
     }
 }

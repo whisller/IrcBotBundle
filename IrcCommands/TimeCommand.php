@@ -1,18 +1,22 @@
 <?php
-namespace Whisnet\IrcBotBundle\Commands;
+namespace Whisnet\IrcBotBundle\IrcCommands;
 
+/**
+ * @author Daniel Ancuta <whisller@gmail.com>
+ */
 class TimeCommand extends Command
 {
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'TIME';
     }
 
-    public function validate()
-    {
-        return true;
-    }
-
+    /**
+     * @return string
+     */
     protected function getArguments()
     {
         return isset($this->args['server']) ? $this->args['server'] : '';

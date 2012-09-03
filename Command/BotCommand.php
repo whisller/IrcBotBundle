@@ -9,20 +9,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Whisnet\IrcBotBundle\Connection\Socket;
 
-use Whisnet\IrcBotBundle\IrcBot\Parser;
-use Whisnet\IrcBotBundle\IrcBot\Irc;
+use Whisnet\IrcBotBundle\Event\DataFromServerEvent;
 
-use Whisnet\IrcBotBundle\Commands\UserCommand;
-use Whisnet\IrcBotBundle\Commands\NickCommand;
-use Whisnet\IrcBotBundle\Commands\JoinCommand;
-use Whisnet\IrcBotBundle\Commands\PrivMsgCommand;
+use Whisnet\IrcBotBundle\IrcCommands\UserCommand;
+use Whisnet\IrcBotBundle\IrcCommands\NickCommand;
+use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
+use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
 
 use Whisnet\IrcBotBundle\Message\Message;
 
-use Whisnet\IrcBotBundle\Parse\ParseBotCommand;
-use Whisnet\IrcBotBundle\Parse\ParseServerCommand;
-use Whisnet\IrcBotBundle\Parse\ParseServerFalseResponse;
-
+/**
+ * @author Daniel Ancuta <whisller@gmail.com>
+ */
 class BotCommand extends ContainerAwareCommand
 {
     protected function configure()
@@ -60,24 +58,26 @@ class BotCommand extends ContainerAwareCommand
         $socket->sendData((string)$joinCommand);
 
         $privMsgCommand = new PrivMsgCommand($validator);
-        $privMsgCommand->addReceiver('#test-irc');
-        $privMsgCommand->setText((string)new Message('Witam wszystkich!'));
+        $privMsgCommand->addReceiver('#test-irc')->setText((string)new Message('Witam wszystkich!'));
+        $privMsgCommand->validate();
         $socket->sendData((string)$privMsgCommand);
 
         do {
             $data = $socket->getData();
+            $patterns[0] = "/\r/";
+            $patterns[1] = "/\r\n/";
+            $patterns[2] = "/\n/";
+            $replacements[0] = '';
+            $replacements[1] = '';
+            $replacements[2] = '';
+            $data = preg_replace($patterns, $replacements, $data);
+
             var_dump($data);
 
-            $parseServerCommand = new ParseServerCommand(array('connection' => $socket));
-            $parseBotCommand = new ParseBotCommand(array('connection' => $socket,
-                                                         'dispatcher' => $dispatcher,
-                                                         'prefix' => '!bot'));
-            $parseServerFalseResponse = new ParseServerFalseResponse(array('connection' => $socket));
-
-            $parseServerCommand->setSuccessor($parseBotCommand);
-            $parseBotCommand->setSuccessor($parseServerFalseResponse);
-
-            $parseServerCommand->parse($data);
+            $event = new DataFromServerEvent();
+            $event->setData($data);
+            $event->setConnection($socket);
+            $dispatcher->dispatch('whisnet_irc_bot.data_from_server', $event);
         } while(true);
     }
 }

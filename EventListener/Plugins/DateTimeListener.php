@@ -1,14 +1,22 @@
 <?php
-namespace Whisnet\IrcBotBundle\EventListener;
+namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
-use Whisnet\IrcBotBundle\EventListener\BaseListener;
+use Whisnet\IrcBotBundle\EventListener\Plugins\BaseListener;
 
-use Whisnet\IrcBotBundle\Commands\PrivMsgCommand;
+use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
+use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
 use Whisnet\IrcBotBundle\Message\Message;
 
+/**
+ * @author Daniel Ancuta <whisller@gmail.com>
+ */
 class DateTimeListener extends BaseListener
 {
-    public function onCommand($event)
+    /**
+     * @param BotCommandFoundEvent $event
+     * @return boolean
+     */
+    public function onCommand(BotCommandFoundEvent $event)
     {
         $arguments = $event->getArguments();
 
@@ -28,8 +36,7 @@ class DateTimeListener extends BaseListener
         $dateTime = new \DateTime('now', new \DateTimeZone($timezone));
 
         $privMsgCommand = new PrivMsgCommand($this->validator);
-        $privMsgCommand->addReceiver($event->getChannel());
-        $privMsgCommand->setText((string)new Message($dateTime->format('Y-m-d H:i:s')));
+        $privMsgCommand->addReceiver($event->getChannel())->setText((string)new Message($dateTime->format('Y-m-d H:i:s')));
 
         $event->getConnection()->sendData((string)$privMsgCommand);
     }

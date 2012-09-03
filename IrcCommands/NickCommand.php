@@ -1,8 +1,11 @@
 <?php
-namespace Whisnet\IrcBotBundle\Commands;
+namespace Whisnet\IrcBotBundle\IrcCommands;
 
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * @author Daniel Ancuta <whisller@gmail.com>
+ */
 class NickCommand extends Command
 {
     /**
@@ -10,16 +13,28 @@ class NickCommand extends Command
      */
     private $nickname;
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'NICK';
     }
 
+    /**
+     * @param string $nickname
+     * @return NickCommand
+     */
     public function setNickname($nickname)
     {
         $this->nickname = trim($nickname);
+
+        return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function getArguments()
     {
         $result = '';
