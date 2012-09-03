@@ -34,7 +34,7 @@ whisnet_irc_bot:
     channels: ["#test-irc"]
 ```
 
-Advenced configuration:
+Advanced configuration:
 ```yaml
 whisnet_irc_bot:
     host: irc.freenode.net
