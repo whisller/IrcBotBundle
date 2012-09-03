@@ -14,6 +14,7 @@
         <service id="whisnet_irc_bot.command_PRIVMSG_listener" class="Whisnet\IrcBotBundle\EventListener\Irc\Messages\PrivMsgListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PRIVMSG" method="onData" />
             <argument type="service" id="event_dispatcher"/>
+            <argument type="string">%whisnet_irc_bot.bot_command_prefix%</argument>
         </service>
 
         <service id="whisnet_irc_bot.bot_command_info_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\InfoListener">

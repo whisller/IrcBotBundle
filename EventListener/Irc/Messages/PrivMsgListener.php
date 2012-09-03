@@ -17,11 +17,17 @@ class PrivMsgListener
     private $dispatcher;
 
     /**
+     * @var string
+     */
+    private $botCommandPrefix;
+
+    /**
      * @param TraceableEventDispatcherInterface $dispatcher
      */
-    public function __construct(TraceableEventDispatcherInterface $dispatcher)
+    public function __construct(TraceableEventDispatcherInterface $dispatcher, $botCommandPrefix)
     {
         $this->dispatcher = $dispatcher;
+        $this->botCommandPrefix = $botCommandPrefix;
     }
 
     /**
@@ -54,7 +60,7 @@ class PrivMsgListener
      */
     private function isBotCommand($message)
     {
-        preg_match('/^!bot (.*)/', $message, $matches);
+        preg_match('/^'.$this->botCommandPrefix.' (.*)/', $message, $matches);
 
         return $matches;
     }
