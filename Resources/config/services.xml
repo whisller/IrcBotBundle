@@ -22,6 +22,11 @@
             <argument type="string">%whisnet_irc_bot.bot_command_prefix%</argument>
         </service>
 
+        <service id="whisnet_irc_bot.command_join_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\JoinListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_join" method="onCommand" />
+            <argument type="service" id="validator"/>
+        </service>
+
         <service id="whisnet_irc_bot.bot_command_info_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\InfoListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_info" method="onCommand" />
             <argument type="service" id="validator"/>

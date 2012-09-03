@@ -8,6 +8,8 @@ use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
 use Whisnet\IrcBotBundle\Message\Message;
 
 /**
+ * Retrieve information about date/time.
+ *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
 class DateTimeListener extends BaseListener
