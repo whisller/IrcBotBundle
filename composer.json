@@ -1,5 +1,5 @@
 {
-    "name": "whisller/IrcBotBundle",
+    "name": "whisller/irc-bot-bundle",
     "type": "symfony-bundle",
     "description": "Symfony IrcBotBundle",
     "license": "MIT",
