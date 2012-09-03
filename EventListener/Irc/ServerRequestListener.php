@@ -41,13 +41,10 @@ class ServerRequestListener
      */
     public function onData(DataFromServerEvent $event)
     {
-        $regex = "/^(?:[:@]([^\\s]+) )?([^\\s]+)(?: ((?:[^:\\s][^\\s]* ?)*))?(?: ?:(.*))?$/"; // @author Joshua Lückers (http://joshualuckers.nl/2010/01/10/regular-expression-to-match-raw-irc-messages/)
-        preg_match($regex, $event->getData(), $matches);
-
         if ('' === $event->getData()) {
             $this->processEmptyData($event);
-        } elseif (is_array($matches)) {
-            $this->processStringData($matches, $event);
+        } else {
+            $this->processStringData($event);
         }
     }
 
@@ -66,16 +63,18 @@ class ServerRequestListener
     /**
      *  Process string response from server.
      *
-     * @param array $matches
      * @param DataFromServerEvent $event
      */
-    private function processStringData(array $matches, DataFromServerEvent $dataFromServerEvent)
+    private function processStringData(DataFromServerEvent $event)
     {
-        if (isset($matches[2]) && ('' !== trim($matches[2]))) {
-            $event = new DataArrayFromServerEvent();
-            $event->setData($matches)->setConnection($dataFromServerEvent->getConnection());
+        $regex = "/^(?:[:@]([^\\s]+) )?([^\\s]+)(?: ((?:[^:\\s][^\\s]* ?)*))?(?: ?:(.*))?$/"; // @author Joshua Lückers (http://joshualuckers.nl/2010/01/10/regular-expression-to-match-raw-irc-messages/)
+        preg_match($regex, $event->getData(), $matches);
 
-            $this->dispatcher->dispatch('whisnet_irc_bot.irc_command_'.$matches[2], $event);
+        if (isset($matches[2]) && ('' !== trim($matches[2]))) {
+            $dataArrayFromServerEvent = new DataArrayFromServerEvent();
+            $dataArrayFromServerEvent->setData($matches)->setConnection($event->getConnection());
+
+            $this->dispatcher->dispatch('whisnet_irc_bot.irc_command_'.$matches[2], $dataArrayFromServerEvent);
         }
     }
 }

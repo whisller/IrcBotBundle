@@ -11,6 +11,11 @@
             <argument type="service" id="validator"/>
         </service>
 
+        <service id="whisnet_irc_bot.command_PING_listener" class="Whisnet\IrcBotBundle\EventListener\Irc\Messages\PingListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PING" method="onData" />
+            <argument type="service" id="validator"/>
+        </service>
+
         <service id="whisnet_irc_bot.command_PRIVMSG_listener" class="Whisnet\IrcBotBundle\EventListener\Irc\Messages\PrivMsgListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PRIVMSG" method="onData" />
             <argument type="service" id="event_dispatcher"/>
