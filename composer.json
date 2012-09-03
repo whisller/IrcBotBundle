@@ -1,0 +1,23 @@
+{
+    "name": "whisller/IrcBotBundle",
+    "type": "symfony-bundle",
+    "description": "Symfony IrcBotBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Ancuta",
+            "email": "whisller@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/whisller/IrcBotBundle/issues"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": { "Whisnet\\IrcBotBundle": "" }
+    },
+    "target-dir": "Whisnet/IrcBotBundle"
+}
