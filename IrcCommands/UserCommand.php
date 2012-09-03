@@ -88,8 +88,8 @@ class UserCommand extends Command
         $result = '';
 
         $result = $this->username.' ';
-        $result .= isset($this->hostname) ? $this->hostname : 'example.com'.' ';
-        $result .= isset($this->servername) ? $this->servername : $this->username.' ';
+        $result .= (isset($this->hostname) ? $this->hostname : 'example.com').' ';
+        $result .= (isset($this->servername) ? $this->servername : $this->username).' ';
         $result .= ':'.(isset($this->realname) ? $this->realname : $this->username);
 
         return $result;

@@ -33,32 +33,36 @@ class BotCommand extends ContainerAwareCommand
     {
         $dispatcher = $this->getContainer()->get('event_dispatcher');
 
+        $serverConfig = $this->getContainer()->getParameter('whisnet_irc_bot.server');
+        $userConfig = $this->getContainer()->getParameter('whisnet_irc_bot.user');
+        $channels = $this->getContainer()->getParameter('whisnet_irc_bot.channels');
+
         $socket = new Socket();
-        $socket->setServer('irc.freenode.net');
-        $socket->setPort('6667');
+        $socket->setServer($serverConfig[0]);
+        $socket->setPort($serverConfig[1]);
         $socket->connect();
 
         $validator = $this->getContainer()->get('validator');
 
         $userCommand = new UserCommand($validator);
-        $userCommand->setUsername('IrcBotBundle');
+        $userCommand->setUsername($userConfig['username']);
+        $userCommand->setRealname($userConfig['realname']);
+        $userCommand->setHostname($userConfig['hostname']);
+        $userCommand->setServername($userConfig['servername']);
         $userCommand->validate();
         $socket->sendData((string)$userCommand);
 
         $nickCommand = new NickCommand($validator);
-        $nickCommand->setNickname('IrcBotBundle');
+        $nickCommand->setNickname($userConfig['username']);
         $nickCommand->validate();
         $socket->sendData((string)$nickCommand);
 
         $joinCommand = new JoinCommand($validator);
-        $joinCommand->addChannel('#test-irc');
+        foreach ($channels as $channel) {
+            $joinCommand->addChannel($channel);
+        }
         $joinCommand->validate();
         $socket->sendData((string)$joinCommand);
-
-        $privMsgCommand = new PrivMsgCommand($validator);
-        $privMsgCommand->addReceiver('#test-irc')->setText((string)new Message('Witam wszystkich!'));
-        $privMsgCommand->validate();
-        $socket->sendData((string)$privMsgCommand);
 
         do {
             $data = Utils::cleanUpServeRequest($socket->getData());

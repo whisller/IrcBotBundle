@@ -109,18 +109,24 @@ namespace Whisnet\IrcBotBundle\Connection;
          * Sets the server.
          * E.g. irc.quakenet.org or irc.freenode.org
          * @param string $server The server to set.
+         * @return Socket
          */
         public function setServer( $server ) {
             $this->server = (string) $server;
+
+            return $this;
         }
 
         /**
          * Sets the port.
          * E.g. 6667
          * @param integer $port The port to set.
+         * @return Socket
          */
         public function setPort( $port ) {
             $this->port = (int) $port;
+
+            return $this;
         }
 
     }
