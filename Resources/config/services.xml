@@ -16,7 +16,12 @@
             <argument type="service" id="event_dispatcher"/>
         </service>
 
-        <service id="whisnet_irc_bot.datetime_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\DateTimeListener">
+        <service id="whisnet_irc_bot.bot_command_info_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\InfoListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_info" method="onCommand" />
+            <argument type="service" id="validator"/>
+        </service>
+
+        <service id="whisnet_irc_bot.bot_command_datetime_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\DateTimeListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_time" method="onCommand" />
             <argument type="service" id="validator"/>
         </service>

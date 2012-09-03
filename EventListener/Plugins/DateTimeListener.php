@@ -14,6 +14,7 @@ class DateTimeListener extends BaseListener
 {
     /**
      * @param BotCommandFoundEvent $event
+     * @throws CommandException
      * @return boolean
      */
     public function onCommand(BotCommandFoundEvent $event)
