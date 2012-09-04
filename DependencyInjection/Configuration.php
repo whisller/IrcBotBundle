@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('user')
+                    ->isRequired()
                     ->children()
                         ->scalarNode('username')->defaultValue('IrcBotBundle')->end()
                         ->scalarNode('hostname')->defaultValue('example.com')->end()
