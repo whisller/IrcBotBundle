@@ -1,7 +1,7 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Irc;
 
-use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\ValidatorInterface;
 
 use Whisnet\IrcBotBundle\Event\DataFromServerEvent;
@@ -17,7 +17,7 @@ use Whisnet\IrcBotBundle\IrcCommands\TimeCommand;
 class ServerRequestListener
 {
     /**
-     * @var TraceableEventDispatcherInterface
+     * @var EventDispatcherInterface
      */
     private $dispatcher;
 
@@ -27,10 +27,10 @@ class ServerRequestListener
     private $validator;
 
     /**
-     * @param TraceableEventDispatcherInterface $dispatcher
+     * @param EventDispatcherInterface $dispatcher
      * @param ValidatorInterface $validator
      */
-    public function __construct(TraceableEventDispatcherInterface $dispatcher, ValidatorInterface $validator)
+    public function __construct(EventDispatcherInterface $dispatcher, ValidatorInterface $validator)
     {
         $this->dispatcher = $dispatcher;
         $this->validator = $validator;

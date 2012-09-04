@@ -1,7 +1,7 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Irc\Messages;
 
-use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use Whisnet\IrcBotBundle\Event\DataArrayFromServerEvent;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
@@ -12,7 +12,7 @@ use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 class PrivMsgListener
 {
     /**
-     * @var TraceableEventDispatcherInterface
+     * @var EventDispatcherInterface
      */
     private $dispatcher;
 
@@ -22,9 +22,9 @@ class PrivMsgListener
     private $botCommandPrefix;
 
     /**
-     * @param TraceableEventDispatcherInterface $dispatcher
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(TraceableEventDispatcherInterface $dispatcher, $botCommandPrefix)
+    public function __construct(EventDispatcherInterface $dispatcher, $botCommandPrefix)
     {
         $this->dispatcher = $dispatcher;
         $this->botCommandPrefix = $botCommandPrefix;

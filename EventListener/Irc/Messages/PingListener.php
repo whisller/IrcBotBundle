@@ -1,7 +1,6 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Irc\Messages;
 
-use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcherInterface;
 use Symfony\Component\Validator\ValidatorInterface;
 
 use Whisnet\IrcBotBundle\Event\DataArrayFromServerEvent;
@@ -36,8 +35,8 @@ class PingListener
         $data = $event->getData();
 
         $pongCommand = new PongCommand($this->validator);
-        $pongCommand->addDaemon($data[4]);
-        $pongCommand->validate();
+        $pongCommand->addDaemon($data[4])
+                ->validate();
 
         $event->getConnection()->sendData((string)$pongCommand);
     }
