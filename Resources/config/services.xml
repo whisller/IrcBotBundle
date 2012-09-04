@@ -46,6 +46,13 @@
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_time" method="onCommand" />
             <argument type="service" id="validator"/>
         </service>
+
+        <service id="whisnet_irc_bot.bot_command_seen_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\SeenListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_seen" method="onCommand" />
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PRIVMSG" method="updateInformation" />
+            <argument type="service" id="validator"/>
+            <argument type="string">%kernel.cache_dir%</argument>
+        </service>
     </services>
 
 </container>

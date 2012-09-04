@@ -72,7 +72,7 @@ class ServerRequestListener
 
         if (isset($matches[2]) && ('' !== trim($matches[2]))) {
             $dataArrayFromServerEvent = new DataArrayFromServerEvent();
-            $dataArrayFromServerEvent->setData($matches)->setConnection($event->getConnection());
+            $dataArrayFromServerEvent->setData($matches)->setConnection($event->getConnection())->setNicknameFromString($matches[1]);
 
             $this->dispatcher->dispatch('whisnet_irc_bot.irc_command_'.$matches[2], $dataArrayFromServerEvent);
         }
