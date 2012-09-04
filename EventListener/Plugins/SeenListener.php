@@ -50,9 +50,9 @@ class SeenListener extends BaseListener
 
                 if (isset($seen[$arguments[0]])) {
                     $privMsgCommand = new PrivMsgCommand($this->validator);
-                    $privMsgCommand->addReceiver($event->getChannel());
-                    $privMsgCommand->setText((string)new Message($event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen[$arguments[0]]));
-                    $privMsgCommand->validate();
+                    $privMsgCommand->addReceiver($event->getChannel())
+                            ->setText((string)new Message($event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen[$arguments[0]]))
+                            ->validate();
 
                     $event->getConnection()->sendData((string)$privMsgCommand);
                 } else {
@@ -81,7 +81,7 @@ class SeenListener extends BaseListener
 
         $dateTime = new \DateTime('now', new \DateTimeZone(date_default_timezone_get()));
 
-        $seen[$event->getNicknameFromString($data[1])] = $dateTime->format('Y-m-d H:i:s');
+        $seen[$event->getNicknameFromString($data[0])] = $dateTime->format('Y-m-d H:i:s');
 
         $handle = fopen($this->cacheFile, 'w');
         fwrite($handle, '<?php '."\n".'$seen = array(); $seen = '.var_export($seen, true).';');
@@ -96,9 +96,9 @@ class SeenListener extends BaseListener
         $arguments = $event->getArguments();
 
         $privMsgCommand = new PrivMsgCommand($this->validator);
-        $privMsgCommand->addReceiver($event->getChannel());
-        $privMsgCommand->setText((string)new Message('Sorry '.$event->getNickname().' I don\'t have information about '.$arguments[0]));
-        $privMsgCommand->validate();
+        $privMsgCommand->addReceiver($event->getChannel())
+                ->setText((string)new Message('Sorry '.$event->getNickname().' I don\'t have information about '.$arguments[0]))
+                ->validate();
 
         $event->getConnection()->sendData((string)$privMsgCommand);
     }
@@ -109,9 +109,9 @@ class SeenListener extends BaseListener
     private function noNickname(BotCommandFoundEvent $event)
     {
         $privMsgCommand = new PrivMsgCommand($this->validator);
-        $privMsgCommand->addReceiver($event->getChannel());
-        $privMsgCommand->setText((string)new Message($event->getNickname().' who are you looking for?'));
-        $privMsgCommand->validate();
+        $privMsgCommand->addReceiver($event->getChannel())
+                ->setText((string)new Message($event->getNickname().' who are you looking for?'))
+                ->validate();
 
         $event->getConnection()->sendData((string)$privMsgCommand);
     }
