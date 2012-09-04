@@ -49,7 +49,7 @@ class PrivMsgListener
             $botCommandFoundEvent->setChannel($data[3])
                     ->setArguments($arguments)
                     ->setConnection($event->getConnection())
-                    ->setNicknameFromString($data[1]);
+                    ->setNicknameFromString($data[0]);
 
             $this->dispatcher->dispatch('whisnet_irc_bot.bot_command_'.$command, $botCommandFoundEvent);
         }
