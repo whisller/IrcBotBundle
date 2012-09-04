@@ -19,19 +19,9 @@ use Whisnet\IrcBotBundle\Message\Message;
 class SeenListener extends BaseListener
 {
     /**
-     * @var string
+     * @var array
      */
-    private $cacheFile;
-
-    /**
-     * @param ValidatorInterface $validator
-     */
-    public function __construct(ValidatorInterface $validator, $cacheDir)
-    {
-        $this->cacheFile = $cacheDir.DIRECTORY_SEPARATOR.'irc-bot-bundle-seen.php';
-
-        parent::__construct($validator);
-    }
+    private static $seen;
 
     /**
      * @param BotCommandFoundEvent $event
@@ -45,19 +35,13 @@ class SeenListener extends BaseListener
         if (!isset($arguments[0])) {
             $this->noNickname($event);
         } else {
-            if (file_exists($this->cacheFile)) {
-                include $this->cacheFile;
+            if (isset(self::$seen[$arguments[0]])) {
+                $privMsgCommand = new PrivMsgCommand($this->validator);
+                $privMsgCommand->addReceiver($event->getChannel())
+                        ->setText((string)new Message($event->getNickname().' I\'ve seen '.$arguments[0].' at '.self::$seen[$arguments[0]]))
+                        ->validate();
 
-                if (isset($seen[$arguments[0]])) {
-                    $privMsgCommand = new PrivMsgCommand($this->validator);
-                    $privMsgCommand->addReceiver($event->getChannel())
-                            ->setText((string)new Message($event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen[$arguments[0]]))
-                            ->validate();
-
-                    $event->getConnection()->sendData((string)$privMsgCommand);
-                } else {
-                    $this->noInformationAvailable($event);
-                }
+                $event->getConnection()->sendData((string)$privMsgCommand);
             } else {
                 $this->noInformationAvailable($event);
             }
@@ -73,19 +57,9 @@ class SeenListener extends BaseListener
     {
         $data = $event->getData();
 
-        if (file_exists($this->cacheFile)) {
-            include $this->cacheFile;
-        } else {
-            $seen = array();
-        }
-
         $dateTime = new \DateTime('now', new \DateTimeZone(date_default_timezone_get()));
 
-        $seen[$event->getNicknameFromString($data[0])] = $dateTime->format('Y-m-d H:i:s');
-
-        $handle = fopen($this->cacheFile, 'w');
-        fwrite($handle, '<?php '."\n".'$seen = array(); $seen = '.var_export($seen, true).';');
-        fclose($handle);
+        self::$seen[$event->getNicknameFromString($data[0])] = $dateTime->format('Y-m-d H:i:s');
     }
 
     /**

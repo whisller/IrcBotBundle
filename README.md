@@ -27,7 +27,12 @@ Composer will install the bundle to your project's `vendor/whisller` directory.
 
 ### Step 2: Configure server, user
 
-Basic configuration...just go to "Step 3" :)
+Basic configuration:
+```yaml
+whisnet_irc_bot:
+  user: ~
+  channels: ["#test-irc"]
+```
 
 Advanced configuration:
 ```yaml
