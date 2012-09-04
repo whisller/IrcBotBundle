@@ -24,6 +24,7 @@ class JoinListener extends BaseListener
         foreach ($event->getArguments() as $channel) {
             $joinCommand->addChannel($channel);
         }
+        $joinCommand->validate();
 
         $event->getConnection()->sendData((string)$joinCommand);
     }

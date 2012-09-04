@@ -29,8 +29,12 @@ class DateTimeListener extends BaseListener
             if (in_array($arguments[0], \DateTimeZone::listIdentifiers())) {
                 $timezone = $arguments[0];
             } else {
-                $event->getConnection()->sendData((string)new PrivMsgCommand(array('receiver' => $event->getChannel(),
-                                                                                   'text' => (string)new Message(sprintf('Sorry, I don\'t know about %s timezone.', $arguments[0])))));
+                $privMsgCommand = new PrivMsgCommand($this->validator);
+                $privMsgCommand->addReceiver($event->getChannel())
+                        ->setText((string)new Message(sprintf('Sorry, I don\'t know about %s timezone.', $arguments[0])))
+                        ->validate();
+
+                $event->getConnection()->sendData((string)$privMsgCommand);
 
                 return false;
             }
@@ -39,7 +43,8 @@ class DateTimeListener extends BaseListener
         $dateTime = new \DateTime('now', new \DateTimeZone($timezone));
 
         $privMsgCommand = new PrivMsgCommand($this->validator);
-        $privMsgCommand->addReceiver($event->getChannel())->setText((string)new Message($dateTime->format('Y-m-d H:i:s')));
+        $privMsgCommand->addReceiver($event->getChannel())
+                ->setText((string)new Message($dateTime->format('Y-m-d H:i:s')));
 
         $event->getConnection()->sendData((string)$privMsgCommand);
     }

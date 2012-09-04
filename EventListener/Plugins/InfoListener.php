@@ -24,7 +24,8 @@ class InfoListener extends BaseListener
         $msg = 'Hi! My name is IrcBotBundle, you can find me on github (https://github.com/whisller/IrcBotBundle).';
 
         $privMsgCommand = new PrivMsgCommand($this->validator);
-        $privMsgCommand->addReceiver($event->getChannel())->setText((string)new Message($msg));
+        $privMsgCommand->addReceiver($event->getChannel())
+                ->setText((string)new Message($msg));
 
         $event->getConnection()->sendData((string)$privMsgCommand);
     }

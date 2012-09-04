@@ -37,23 +37,23 @@ class BotCommand extends ContainerAwareCommand
         $channels = $this->getContainer()->getParameter('whisnet_irc_bot.channels');
 
         $socket = new Socket();
-        $socket->setServer($serverConfig[0]);
-        $socket->setPort($serverConfig[1]);
-        $socket->connect();
+        $socket->setServer($serverConfig[0])
+                ->setPort($serverConfig[1])
+                ->connect();
 
         $validator = $this->getContainer()->get('validator');
 
         $userCommand = new UserCommand($validator);
-        $userCommand->setUsername($userConfig['username']);
-        $userCommand->setRealname($userConfig['realname']);
-        $userCommand->setHostname($userConfig['hostname']);
-        $userCommand->setServername($userConfig['servername']);
-        $userCommand->validate();
+        $userCommand->setUsername($userConfig['username'])
+                ->setRealname($userConfig['realname'])
+                ->setHostname($userConfig['hostname'])
+                ->setServername($userConfig['servername'])
+                ->validate();
         $socket->sendData((string)$userCommand);
 
         $nickCommand = new NickCommand($validator);
-        $nickCommand->setNickname($userConfig['username']);
-        $nickCommand->validate();
+        $nickCommand->setNickname($userConfig['username'])
+                ->validate();
         $socket->sendData((string)$nickCommand);
 
         $joinCommand = new JoinCommand($validator);
@@ -69,7 +69,8 @@ class BotCommand extends ContainerAwareCommand
             var_dump($data);
 
             $event = new DataFromServerEvent();
-            $event->setData($data)->setConnection($socket);
+            $event->setData($data)
+                    ->setConnection($socket);
 
             $dispatcher->dispatch('whisnet_irc_bot.data_from_server', $event);
         } while(true);

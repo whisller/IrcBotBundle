@@ -22,8 +22,8 @@ class QuitListener extends BaseListener
     public function onCommand(BotCommandFoundEvent $event)
     {
         $quitCommand = new QuitCommand($this->validator);
-        $quitCommand->setMessage((string)new Message($event->getNickname()));
-        $quitCommand->validate();
+        $quitCommand->setMessage((string)new Message($event->getNickname()))
+                ->validate();
 
         $event->getConnection()->sendData((string)$quitCommand);
     }
