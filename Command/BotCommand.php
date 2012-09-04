@@ -13,7 +13,6 @@ use Whisnet\IrcBotBundle\IrcCommands\UserCommand;
 use Whisnet\IrcBotBundle\IrcCommands\NickCommand;
 use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
 use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
-use Whisnet\IrcBotBundle\Message\Message;
 use Whisnet\IrcBotBundle\Utils\Utils;
 
 /**

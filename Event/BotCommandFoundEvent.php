@@ -25,7 +25,12 @@ class BotCommandFoundEvent extends Event
     /**
      * @var string
      */
-    private $channel = '';
+    private $channel;
+
+    /**
+     * @var string
+     */
+    private $nickname;
 
     /**
      * @param array $arguments
@@ -83,5 +88,30 @@ class BotCommandFoundEvent extends Event
     public function getChannel()
     {
         return $this->channel;
+    }
+
+    /**
+     * @param string $msg
+     * @return BotCommandFoundEvent
+     */
+    public function setNicknameFromString($msg)
+    {
+        $regex = '/(?<=[^a-z_\-\[\]\\^{}|`])[a-z_\-\[\]\\^{}|`][a-z0-9_\-\[\]\\^{}|`]*/i'; // http://stackoverflow.com/a/5163309
+
+        if (preg_match($regex, $msg, $matches)) {
+            if (isset($matches[0])) {
+                $this->nickname = $matches[0];
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNickname()
+    {
+        return $this->nickname;
     }
 }

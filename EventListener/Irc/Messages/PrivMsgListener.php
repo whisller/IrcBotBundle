@@ -46,7 +46,10 @@ class PrivMsgListener
             $arguments = array_slice($matches, 1);
 
             $botCommandFoundEvent = new BotCommandFoundEvent();
-            $botCommandFoundEvent->setChannel($data[3])->setArguments($arguments)->setConnection($event->getConnection());
+            $botCommandFoundEvent->setChannel($data[3])
+                    ->setArguments($arguments)
+                    ->setConnection($event->getConnection())
+                    ->setNicknameFromString($data[1]);
 
             $this->dispatcher->dispatch('whisnet_irc_bot.bot_command_'.$command, $botCommandFoundEvent);
         }

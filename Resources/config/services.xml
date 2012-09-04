@@ -32,6 +32,11 @@
             <argument type="service" id="validator"/>
         </service>
 
+        <service id="whisnet_irc_bot.command_quit_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\QuitListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_quit" method="onCommand" />
+            <argument type="service" id="validator"/>
+        </service>
+
         <service id="whisnet_irc_bot.bot_command_info_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\InfoListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_info" method="onCommand" />
             <argument type="service" id="validator"/>
