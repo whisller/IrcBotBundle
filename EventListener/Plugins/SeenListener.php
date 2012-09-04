@@ -85,6 +85,7 @@ class SeenListener extends BaseListener
 
         $handle = fopen($this->cacheFile, 'w');
         fwrite($handle, '<?php '."\n".'$seen = array(); $seen = '.var_export($seen, true).';');
+        fclose($handle);
     }
 
     /**
