@@ -2,6 +2,8 @@
 
 namespace Whisnet\IrcBotBundle\Connection;
 
+use \Whisnet\IrcBotBundle\IrcCommands\Interfaces\Command;
+
     /**
      * IRC Bot
      *
@@ -33,6 +35,8 @@ namespace Whisnet\IrcBotBundle\Connection;
      */
     interface ConnectionInterface {
 
+        public function __construct($server = '127.0.0.1', $port = 321);
+
         /**
          * Establishs the connection to the server.
          */
@@ -51,7 +55,13 @@ namespace Whisnet\IrcBotBundle\Connection;
          *
          * @return boolean FALSE on error.
          */
-        public function sendData( $data );
+
+
+        public function sendData($data );
+
+        public function sendCommand( Command $data );
+
+        public function setValidator(ValidatorInterface $validator);
 
         /**
          * Returns data from the server.
@@ -59,6 +69,8 @@ namespace Whisnet\IrcBotBundle\Connection;
          * @return string|boolean The data as string, or false if no data is available or an error occured.
          */
         public function getData();
+
+        public function getResponse();
 
         /**
          * Check wether the connection exists.

@@ -19,6 +19,10 @@ class QuitCommand extends Command
         return 'QUIT';
     }
 
+    public function __construct($message) {
+        $this->setMessage($message);
+    }
+
     /**
      * @param string $message
      * @return QuitCommand

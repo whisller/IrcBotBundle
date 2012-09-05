@@ -10,4 +10,10 @@ use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
  */
 class DataFromServerEvent extends BaseIrcEvent
 {
+
+    public function __construct($response, $connection) {
+        $this->setData($response);
+        $this->setConnection($connection);
+    }
+
 }

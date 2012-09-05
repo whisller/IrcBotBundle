@@ -21,6 +21,10 @@ class NickCommand extends Command
         return 'NICK';
     }
 
+    public function __construct($nickname) {
+        $this->setNickname($nickname);
+    }
+
     /**
      * @param string $nickname
      * @return NickCommand
