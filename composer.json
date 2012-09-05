@@ -2,6 +2,7 @@
     "name": "whisller/irc-bot-bundle",
     "type": "symfony-bundle",
     "description": "Symfony IrcBotBundle",
+    "keywords": ["irc", "bot", "bundle"],
     "license": "MIT",
     "authors": [
         {
