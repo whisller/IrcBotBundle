@@ -25,7 +25,24 @@ $ php composer.phar update whisller/irc-bot-bundle
 
 Composer will install the bundle to your project's `vendor/whisller` directory.
 
-### Step 2: Configure server, user
+### Step 2: Enable the bundle
+
+Enable the bundle in the kernel:
+
+```php
+<?php
+// app/AppKernel.php
+
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new Whisnet\IrcBotBundle\WhisnetIrcBotBundle(),
+    );
+}
+```
+
+### Step 3: Configure server, user
 
 Basic configuration:
 ```yaml
@@ -48,7 +65,7 @@ whisnet_irc_bot:
     channels: ["#test-irc", "#test-other-irc"]
 ```
 
-### Step 3: Launch the IrcBot!
+### Step 4: Launch the IrcBot!
 ``` bash
 $ php app/console irc:launch
 ```
