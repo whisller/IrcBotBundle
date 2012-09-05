@@ -1,5 +1,5 @@
 <?php
-namespace Whisnet\IrcBotBundle\IrcCommands;
+namespace Whisnet\IrcBotBundle\IrcCommands\Exceptions;
 
 /**
  * Throws when validation of command will not pass.

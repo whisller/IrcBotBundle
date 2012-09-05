@@ -3,6 +3,8 @@ namespace Whisnet\IrcBotBundle\IrcCommands;
 
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use Whisnet\IrcBotBundle\Message\Message;
+
 /**
  * @author Daniel Ancuta <whisller@gmail.com>
  */
@@ -27,10 +29,23 @@ class PrivMsgCommand extends Command
     }
 
     /**
+     * @param array $receivers
+     * @param Message $text
+     */
+    public function __construct(array $receivers, Message $text)
+    {
+        foreach ($receivers as $receiver) {
+            $this->addReceiver($receiver);
+        }
+
+        $this->setText($text);
+    }
+
+    /**
      * @param string $receiver
      * @return PrivMsgCommand
      */
-    public function addReceiver($receiver)
+    protected function addReceiver($receiver)
     {
         if ('' !== trim($receiver)) {
             $this->receiver[] = $receiver;
@@ -40,12 +55,12 @@ class PrivMsgCommand extends Command
     }
 
     /**
-     * @param string $text
+     * @param Message $text
      * @return PrivMsgCommand
      */
-    public function setText($text)
+    protected function setText(Message $text)
     {
-        $this->text = trim($text);
+        $this->text = trim((string)$text);
 
         return $this;
     }

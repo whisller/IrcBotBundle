@@ -34,32 +34,14 @@ class BotCommand extends ContainerAwareCommand
 
         $serverConfig = $this->getContainer()->getParameter('whisnet_irc_bot.server');
         $userConfig = $this->getContainer()->getParameter('whisnet_irc_bot.user');
-        $channels = $this->getContainer()->getParameter('whisnet_irc_bot.channels');
 
         $socket = new Socket($serverConfig[0], $serverConfig[1]);
-        $socket->connect();
+        $socket->setValidator($this->getContainer()->get('validator'))
+                ->connect();
 
-        $validator = $this->getContainer()->get('validator');
-
-        $userCommand = new UserCommand($validator);
-        $userCommand->setUsername($userConfig['username'])
-                ->setRealname($userConfig['realname'])
-                ->setHostname($userConfig['hostname'])
-                ->setServername($userConfig['servername'])
-                ->validate();
-        $socket->sendData((string)$userCommand);
-
-        $nickCommand = new NickCommand($validator);
-        $nickCommand->setNickname($userConfig['username'])
-                ->validate();
-        $socket->sendData((string)$nickCommand);
-
-        $joinCommand = new JoinCommand($validator);
-        foreach ($channels as $channel) {
-            $joinCommand->addChannel($channel);
-        }
-        $joinCommand->validate();
-        $socket->sendData((string)$joinCommand);
+        $socket->sendCommand(new UserCommand($userConfig['username'], $userConfig['hostname'], $userConfig['servername'], $userConfig['realname']));
+        $socket->sendCommand(new NickCommand($userConfig['username']));
+        $socket->sendCommand(new JoinCommand($this->getContainer()->getParameter('whisnet_irc_bot.channels')));
 
         do {
             $data = Utils::cleanUpServeRequest($socket->getData());

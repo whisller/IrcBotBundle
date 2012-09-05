@@ -3,10 +3,13 @@ namespace Whisnet\IrcBotBundle\IrcCommands;
 
 use Symfony\Component\Validator\ValidatorInterface;
 
+use Whisnet\IrcBotBundle\IrcCommands\Interfaces\CommandInterface;
+use Whisnet\IrcBotBundle\IrcCommands\Exceptions\CommandException;
+
 /**
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-abstract class Command
+abstract class Command implements CommandInterface
 {
     const POSTFIX = "\r";
 
@@ -18,9 +21,11 @@ abstract class Command
     /**
      * @param ValidatorInterface $validator
      */
-    public function __construct(ValidatorInterface $validator)
+    public function setValidator(ValidatorInterface $validator)
     {
-        $this->validator = $validator;
+        if($this->validator == null) {
+            $this->validator = $validator;
+        }
     }
 
     /**

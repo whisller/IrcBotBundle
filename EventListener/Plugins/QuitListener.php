@@ -1,7 +1,7 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
-use Whisnet\IrcBotBundle\EventListener\Plugins\BaseListener;
+use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
 use Whisnet\IrcBotBundle\Message\Message;
@@ -12,7 +12,7 @@ use Whisnet\IrcBotBundle\IrcCommands\QuitCommand;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class QuitListener extends BaseListener
+class QuitListener extends BasePluginListener
 {
     /**
      * @param BotCommandFoundEvent $event
@@ -21,10 +21,8 @@ class QuitListener extends BaseListener
      */
     public function onCommand(BotCommandFoundEvent $event)
     {
-        $quitCommand = new QuitCommand($this->validator);
-        $quitCommand->setMessage((string)new Message($event->getNickname()))
-                ->validate();
+        $data = $event->getArguments();
 
-        $event->getConnection()->sendData((string)$quitCommand);
+        $event->getConnection()->sendCommand(new QuitCommand(new Message((isset($data[0]) ? $data[0] : ''))));
     }
 }

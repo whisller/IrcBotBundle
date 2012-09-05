@@ -36,11 +36,19 @@ class UserCommand extends Command
         return 'USER';
     }
 
+    public function __construct($username, $hostname = '', $servername = '', $realname = '')
+    {
+        $this->setUsername($username);
+        $this->setHostname($hostname);
+        $this->setServername($servername);
+        $this->setRealname($realname);
+    }
+
     /**
      * @param string $username
      * @return UserCommand
      */
-    public function setUsername($username)
+    protected function setUsername($username)
     {
         $this->username = trim($username);
 
@@ -51,7 +59,7 @@ class UserCommand extends Command
      * @param string $hostname
      * @return UserCommand
      */
-    public function setHostname($hostname)
+    protected function setHostname($hostname)
     {
         $this->hostname = trim($hostname);
 
@@ -62,7 +70,7 @@ class UserCommand extends Command
      * @param string $servername
      * @return UserCommand
      */
-    public function setServername($servername)
+    protected function setServername($servername)
     {
         $this->servername = trim($servername);
 
@@ -73,7 +81,7 @@ class UserCommand extends Command
      * @param string $realname
      * @return UserCommand
      */
-    public function setRealname($realname)
+    protected function setRealname($realname)
     {
         $this->realname = trim($realname);
 
@@ -88,9 +96,9 @@ class UserCommand extends Command
         $result = '';
 
         $result = $this->username.' ';
-        $result .= (isset($this->hostname) ? $this->hostname : 'example.com').' ';
-        $result .= (isset($this->servername) ? $this->servername : $this->username).' ';
-        $result .= ':'.(isset($this->realname) ? $this->realname : $this->username);
+        $result .= (!empty($this->hostname) ? $this->hostname : 'example.com').' ';
+        $result .= (!empty($this->servername) ? $this->servername : $this->username).' ';
+        $result .= ':'.(!empty($this->realname) ? $this->realname : $this->username);
 
         return $result;
     }

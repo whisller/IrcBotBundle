@@ -2,7 +2,6 @@
 namespace Whisnet\IrcBotBundle\EventListener\Irc;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Validator\ValidatorInterface;
 
 use Whisnet\IrcBotBundle\Event\DataFromServerEvent;
 use Whisnet\IrcBotBundle\Event\DataArrayFromServerEvent;
@@ -22,18 +21,12 @@ class ServerRequestListener
     private $dispatcher;
 
     /**
-     * @var ValidatorInterface
-     */
-    private $validator;
-
-    /**
      * @param EventDispatcherInterface $dispatcher
      * @param ValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, ValidatorInterface $validator)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
-        $this->validator = $validator;
     }
 
     /**
@@ -57,7 +50,7 @@ class ServerRequestListener
      */
     private function processEmptyData(DataFromServerEvent $event)
     {
-        $event->getConnection()->sendData((string)new TimeCommand($this->validator));
+        $event->getConnection()->sendCommand(new TimeCommand());
     }
 
     /**

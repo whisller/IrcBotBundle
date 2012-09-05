@@ -1,7 +1,7 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
-use Whisnet\IrcBotBundle\EventListener\Plugins\BaseListener;
+use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
 use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
@@ -11,7 +11,7 @@ use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class JoinListener extends BaseListener
+class JoinListener extends BasePluginListener
 {
     /**
      * @param BotCommandFoundEvent $event
@@ -20,12 +20,6 @@ class JoinListener extends BaseListener
      */
     public function onCommand(BotCommandFoundEvent $event)
     {
-        $joinCommand = new JoinCommand($this->validator);
-        foreach ($event->getArguments() as $channel) {
-            $joinCommand->addChannel($channel);
-        }
-        $joinCommand->validate();
-
-        $event->getConnection()->sendData((string)$joinCommand);
+        $event->getConnection()->sendCommand(new JoinCommand($event->getArguments()));
     }
 }

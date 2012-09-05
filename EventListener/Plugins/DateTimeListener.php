@@ -1,7 +1,7 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
-use Whisnet\IrcBotBundle\EventListener\Plugins\BaseListener;
+use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
 use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
@@ -12,7 +12,7 @@ use Whisnet\IrcBotBundle\Message\Message;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class DateTimeListener extends BaseListener
+class DateTimeListener extends BasePluginListener
 {
     /**
      * @param BotCommandFoundEvent $event
@@ -29,12 +29,7 @@ class DateTimeListener extends BaseListener
             if (in_array($arguments[0], \DateTimeZone::listIdentifiers())) {
                 $timezone = $arguments[0];
             } else {
-                $privMsgCommand = new PrivMsgCommand($this->validator);
-                $privMsgCommand->addReceiver($event->getChannel())
-                        ->setText((string)new Message(sprintf('Sorry, I don\'t know about %s timezone.', $arguments[0])))
-                        ->validate();
-
-                $event->getConnection()->sendData((string)$privMsgCommand);
+                $this->sendMessage($event, array($event->getChannel()), $event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen);
 
                 return false;
             }
@@ -42,10 +37,6 @@ class DateTimeListener extends BaseListener
 
         $dateTime = new \DateTime('now', new \DateTimeZone($timezone));
 
-        $privMsgCommand = new PrivMsgCommand($this->validator);
-        $privMsgCommand->addReceiver($event->getChannel())
-                ->setText((string)new Message($dateTime->format('Y-m-d H:i:s')));
-
-        $event->getConnection()->sendData((string)$privMsgCommand);
+        $this->sendMessage($event, array($event->getChannel()), $dateTime->format('Y-m-d H:i:s'));
     }
 }

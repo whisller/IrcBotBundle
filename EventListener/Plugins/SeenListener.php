@@ -1,14 +1,9 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
-use Symfony\Component\Validator\ValidatorInterface;
-
-use Whisnet\IrcBotBundle\EventListener\Plugins\BaseListener;
+use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 use Whisnet\IrcBotBundle\Event\DataArrayFromServerEvent;
-
-use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
-use Whisnet\IrcBotBundle\Message\Message;
 
 /**
  * Listener is adding "last seen" functionality.
@@ -16,7 +11,7 @@ use Whisnet\IrcBotBundle\Message\Message;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class SeenListener extends BaseListener
+class SeenListener extends BasePluginListener
 {
     /**
      * @var string
@@ -37,12 +32,7 @@ class SeenListener extends BaseListener
         } else {
             $seen = $this->readFromSeen($arguments[0]);
             if ($seen) {
-                $privMsgCommand = new PrivMsgCommand($this->validator);
-                $privMsgCommand->addReceiver($event->getChannel())
-                        ->setText((string)new Message($event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen))
-                        ->validate();
-
-                $event->getConnection()->sendData((string)$privMsgCommand);
+                $this->sendMessage($event, array($event->getChannel()), $event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen);
             } else {
                 $this->noInformationAvailable($event);
             }
@@ -73,12 +63,7 @@ class SeenListener extends BaseListener
     {
         $arguments = $event->getArguments();
 
-        $privMsgCommand = new PrivMsgCommand($this->validator);
-        $privMsgCommand->addReceiver($event->getChannel())
-                ->setText((string)new Message('Sorry '.$event->getNickname().' I don\'t have information about '.$arguments[0]))
-                ->validate();
-
-        $event->getConnection()->sendData((string)$privMsgCommand);
+        $this->sendMessage($event, array($event->getChannel()), 'Sorry '.$event->getNickname().' I don\'t have information about '.$arguments[0]);
     }
 
     /**
@@ -86,12 +71,7 @@ class SeenListener extends BaseListener
      */
     private function noNickname(BotCommandFoundEvent $event)
     {
-        $privMsgCommand = new PrivMsgCommand($this->validator);
-        $privMsgCommand->addReceiver($event->getChannel())
-                ->setText((string)new Message($event->getNickname().' who are you looking for?'))
-                ->validate();
-
-        $event->getConnection()->sendData((string)$privMsgCommand);
+        $this->sendMessage($event, array($event->getChannel()), $event->getNickname().' who are you looking for?');
     }
 
     /**

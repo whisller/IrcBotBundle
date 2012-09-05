@@ -1,10 +1,7 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Irc\Messages;
 
-use Symfony\Component\Validator\ValidatorInterface;
-
-use Whisnet\IrcBotBundle\Event\DataArrayFromServerEvent;
-use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
+use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
 
 use Whisnet\IrcBotBundle\IrcCommands\PongCommand;
 
@@ -15,29 +12,12 @@ use Whisnet\IrcBotBundle\IrcCommands\PongCommand;
 class PingListener
 {
     /**
-     * @var ValidatorInterface
+     * @param BaseIrcEvent $event
      */
-    protected $validator;
-
-    /**
-     * @param ValidatorInterface $validator
-     */
-    public function __construct(ValidatorInterface $validator)
-    {
-        $this->validator = $validator;
-    }
-
-    /**
-     * @param DataArrayFromServerEvent $event
-     */
-    public function onData(DataArrayFromServerEvent $event)
+    public function onData(BaseIrcEvent $event)
     {
         $data = $event->getData();
 
-        $pongCommand = new PongCommand($this->validator);
-        $pongCommand->addDaemon($data[4])
-                ->validate();
-
-        $event->getConnection()->sendData((string)$pongCommand);
+        $event->getConnection()->sendCommand(new PongCommand(array($data[4])));
     }
 }

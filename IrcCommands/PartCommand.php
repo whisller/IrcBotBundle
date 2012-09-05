@@ -22,10 +22,20 @@ class PartCommand extends Command
     }
 
     /**
+     * @param array $channels
+     */
+    public function __construct(array $channels)
+    {
+        foreach ($channels as $channel) {
+            $this->addChannel($channel);
+        }
+    }
+
+    /**
      * @param string $channel
      * @return JoinCommand
      */
-    public function addChannel($channel)
+    protected function addChannel($channel)
     {
         if ('' !== trim($channel)) {
             $this->channels[] = $channel;

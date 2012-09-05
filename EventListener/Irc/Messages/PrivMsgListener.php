@@ -3,7 +3,7 @@ namespace Whisnet\IrcBotBundle\EventListener\Irc\Messages;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-use Whisnet\IrcBotBundle\Event\DataArrayFromServerEvent;
+use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
 /**
@@ -31,9 +31,9 @@ class PrivMsgListener
     }
 
     /**
-     * @param DataArrayFromServerEvent $event
+     * @param BaseIrcEvent $event
      */
-    public function onData(DataArrayFromServerEvent $event)
+    public function onData(BaseIrcEvent $event)
     {
         $data = $event->getData();
 

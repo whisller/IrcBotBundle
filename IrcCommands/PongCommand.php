@@ -19,10 +19,20 @@ class PongCommand extends Command
     }
 
     /**
+     * @param array $daemons
+     */
+    public function __construct(array $daemons)
+    {
+        foreach ($daemons as $daemon) {
+            $this->addDaemon($daemon);
+        }
+    }
+
+    /**
      * @param string $daemon
      * @return PongCommand
      */
-    public function addDaemon($daemon)
+    protected function addDaemon($daemon)
     {
         if ('' !== trim($daemon)) {
             $this->daemon[] = $daemon;

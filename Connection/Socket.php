@@ -1,6 +1,9 @@
 <?php
 namespace Whisnet\IrcBotBundle\Connection;
 
+use Symfony\Component\Validator\ValidatorInterface;
+use Whisnet\IrcBotBundle\IrcCommands\Interfaces\CommandInterface;
+
     /**
      * IRC Bot
      *
@@ -49,6 +52,11 @@ namespace Whisnet\IrcBotBundle\Connection;
         private $socket;
 
         /**
+         * @var ValidatorInterface
+         */
+        private $validator;
+
+        /**
          * @param string $server
          * @param integer $port
          */
@@ -62,6 +70,17 @@ namespace Whisnet\IrcBotBundle\Connection;
          */
         public function __destruct() {
             $this->disconnect();
+        }
+
+        /**
+         * @param ValidatorInterface $validator
+         * @return Socket
+         */
+        public function setValidator(ValidatorInterface $validator)
+        {
+            $this->validator = $validator;
+
+            return $this;
         }
 
         /**
@@ -91,6 +110,17 @@ namespace Whisnet\IrcBotBundle\Connection;
          */
         public function sendData( $data ) {
             return fwrite( $this->socket, $data );
+        }
+
+        /**
+         * @param CommandInterface $command
+         */
+        public function sendCommand(CommandInterface $command)
+        {
+            $command->setValidator($this->validator);
+            $command->validate();
+
+            $this->sendData((string)$command);
         }
 
         /**
