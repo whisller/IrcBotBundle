@@ -19,9 +19,9 @@ use Whisnet\IrcBotBundle\Message\Message;
 class SeenListener extends BaseListener
 {
     /**
-     * @var array
+     * @var string
      */
-    private static $seen;
+    private $cacheFile;
 
     /**
      * @param BotCommandFoundEvent $event
@@ -35,10 +35,11 @@ class SeenListener extends BaseListener
         if (!isset($arguments[0])) {
             $this->noNickname($event);
         } else {
-            if (isset(self::$seen[$arguments[0]])) {
+            $seen = $this->readFromSeen($arguments[0]);
+            if ($seen) {
                 $privMsgCommand = new PrivMsgCommand($this->validator);
                 $privMsgCommand->addReceiver($event->getChannel())
-                        ->setText((string)new Message($event->getNickname().' I\'ve seen '.$arguments[0].' at '.self::$seen[$arguments[0]]))
+                        ->setText((string)new Message($event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen))
                         ->validate();
 
                 $event->getConnection()->sendData((string)$privMsgCommand);
@@ -59,7 +60,10 @@ class SeenListener extends BaseListener
 
         $dateTime = new \DateTime('now', new \DateTimeZone(date_default_timezone_get()));
 
-        self::$seen[$event->getNicknameFromString($data[0])] = $dateTime->format('Y-m-d H:i:s');
+        $this->writeToSeen($event->getNicknameFromString($data[0]), $dateTime->format('Y-m-d H:i:s'));
+
+        unset($dateTime);
+        unset($data);
     }
 
     /**
@@ -88,5 +92,64 @@ class SeenListener extends BaseListener
                 ->validate();
 
         $event->getConnection()->sendData((string)$privMsgCommand);
+    }
+
+    /**
+     * @param string $nickname
+     * @param string $date
+     */
+    private function writeToSeen($nickname, $date)
+    {
+        $seenFile = file_exists($this->cacheFile) ? file_get_contents($this->cacheFile) : false;
+
+        if (false !== $seenFile) {
+            $seenArray = json_decode($seenFile, true);
+   
+            unset($seenFile);
+        } else {
+            $seenArray = array();
+        }
+
+        $seenArray[$nickname] = $date;
+
+        file_put_contents($this->cacheFile, json_encode($seenArray));
+        unset($seenArray);
+
+        return $this;
+    }
+
+    /**
+     * @param string $nickname
+     * @return false if no record is available, string if we found date
+     */
+    private function readFromSeen($nickname)
+    {
+        $result = false;
+
+        $seenFile = file_get_contents($this->cacheFile);
+
+        if (false !== $seenFile) {
+            $seenArray = json_decode($seenFile, true);
+
+            unset($seenFile);
+        } else {
+            $seenArray = array();
+        }
+
+        if (isset($seenArray[$nickname])) {
+            $result = $seenArray[$nickname];
+        }
+
+        unset($seenArray);
+
+        return $result;
+    }
+
+    /**
+     * @param string $cacheDir
+     */
+    public function setCacheDir($cacheDir)
+    {
+        $this->cacheFile = $cacheDir.DIRECTORY_SEPARATOR.'irc-bot-bundle-seen.json';
     }
 }

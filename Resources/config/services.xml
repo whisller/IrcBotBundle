@@ -51,6 +51,9 @@
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_seen" method="onCommand" />
             <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PRIVMSG" method="updateInformation" />
             <argument type="service" id="validator"/>
+            <call method="setCacheDir">
+                <argument type="string">%kernel.cache_dir%</argument>
+            </call>
         </service>
     </services>
 
