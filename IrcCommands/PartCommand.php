@@ -21,6 +21,17 @@ class PartCommand extends Command
         return 'PART';
     }
 
+    public function __construct($channels) {
+        if(is_array($channels)) {
+            foreach($channels as $channel) {
+                $this->addChannel($channel);
+            }
+        }
+        else {
+            $this->addChannel($channels);
+        }
+    }
+
     /**
      * @param string $channel
      * @return JoinCommand

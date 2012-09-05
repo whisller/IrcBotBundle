@@ -28,6 +28,15 @@ class UserCommand extends Command
      */
     private $realname;
 
+
+    public function __construct($username, $realname = null, $hostname = null, $servername = null) {
+//        parent::__construct();
+        $this->setUsername($username);
+        $this->setHostname($hostname);
+        $this->setRealname($realname);
+        $this->setServername($servername);
+    }
+
     /**
      * @return string
      */

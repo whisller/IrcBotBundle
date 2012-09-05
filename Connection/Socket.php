@@ -1,5 +1,9 @@
 <?php
+
 namespace Whisnet\IrcBotBundle\Connection;
+
+use \Whisnet\IrcBotBundle\IrcCommands\Interfaces\Command;
+
 
     /**
      * IRC Bot
@@ -48,6 +52,13 @@ namespace Whisnet\IrcBotBundle\Connection;
          */
         private $socket;
 
+        private $validator;
+
+        public function __construct($server = '127.0.0.1', $port = 321) {
+            $this->setServer($server);
+            $this->setPort($port);
+        }
+
         /**
          * Close the connection.
          */
@@ -84,6 +95,12 @@ namespace Whisnet\IrcBotBundle\Connection;
             return fwrite( $this->socket, $data );
         }
 
+        public function sendCommand(Command $command) {
+            $command->setValidator($this->validator);
+            $command->validate();
+            $this->sendData($command->asData());
+        }
+
         /**
          * Returns data from the server.
          *
@@ -91,6 +108,14 @@ namespace Whisnet\IrcBotBundle\Connection;
          */
         public function getData() {
             return fgets( $this->socket );
+        }
+
+        public function getResponse() {
+            return new Response($this->getData());
+        }
+
+        public function setValidator(ValidatorInterface $validator) {
+            $this->validator = $validator;
         }
 
         /**

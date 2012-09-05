@@ -2,26 +2,19 @@
 namespace Whisnet\IrcBotBundle\IrcCommands;
 
 use Symfony\Component\Validator\ValidatorInterface;
+use Whisnet\IrcBotBundle\IrcCommands\Interfaces\Command as CommandInterface;
 
 /**
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-abstract class Command
+abstract class Command implements CommandInterface
 {
     const POSTFIX = "\r";
 
     /**
      * @var ValidatorInterface
      */
-    protected $validator;
-
-    /**
-     * @param ValidatorInterface $validator
-     */
-    public function __construct(ValidatorInterface $validator)
-    {
-        $this->validator = $validator;
-    }
+    protected $validator = null;
 
     /**
      * @return boolean
@@ -44,6 +37,12 @@ abstract class Command
         return true;
     }
 
+    public function setValidator(ValidatorInterface $validator) {
+        if($this->validator == null) {
+            $this->validator = $validator;
+        }
+    }
+
     /**
      * Return name of the command.
      *
@@ -57,6 +56,10 @@ abstract class Command
      * @return string
      */
     abstract protected function getArguments();
+
+    public function asData() {
+        return (string)$this;
+    }
 
     /**
      * Return prepared command with arguments.

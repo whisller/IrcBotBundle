@@ -26,6 +26,18 @@ class PrivMsgCommand extends Command
         return 'PRIVMSG';
     }
 
+    public function __construct($receivers, $text) {
+        if(is_array($receivers)) {
+            foreach($receivers as $receiver) {
+                $this->addReceiver($receiver);
+            }
+        }
+        else {
+            $this->addReceiver($receivers);
+        }
+        $this->set($text);
+    }
+
     /**
      * @param string $receiver
      * @return PrivMsgCommand

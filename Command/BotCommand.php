@@ -36,43 +36,28 @@ class BotCommand extends ContainerAwareCommand
         $userConfig = $this->getContainer()->getParameter('whisnet_irc_bot.user');
         $channels = $this->getContainer()->getParameter('whisnet_irc_bot.channels');
 
-        $socket = new Socket();
-        $socket->setServer($serverConfig[0])
-                ->setPort($serverConfig[1])
-                ->connect();
+        $socket = new Socket($serverConfig[0], $serverConfig[1]);
+        $socket->connect();
+        $socket->setValidator($this->getContainer()->get('validator'));
 
-        $validator = $this->getContainer()->get('validator');
 
-        $userCommand = new UserCommand($validator);
-        $userCommand->setUsername($userConfig['username'])
-                ->setRealname($userConfig['realname'])
-                ->setHostname($userConfig['hostname'])
-                ->setServername($userConfig['servername'])
-                ->validate();
-        $socket->sendData((string)$userCommand);
+        $userCommand = new UserCommand($userConfig['username'], $userConfig['realname'], $userConfig['hostname'], $userConfig['servername']);
+        $socket->sendCommand($userCommand);
 
-        $nickCommand = new NickCommand($validator);
-        $nickCommand->setNickname($userConfig['username'])
-                ->validate();
-        $socket->sendData((string)$nickCommand);
+        $nickCommand = new NickCommand($userConfig['username']);
+        $socket->sendCommand($nickCommand);
 
-        $joinCommand = new JoinCommand($validator);
-        foreach ($channels as $channel) {
-            $joinCommand->addChannel($channel);
-        }
-        $joinCommand->validate();
-        $socket->sendData((string)$joinCommand);
+        $joinCommand = new JoinCommand($channels);
+        $socket->sendCommand($joinCommand);
 
         do {
-            $data = Utils::cleanUpServeRequest($socket->getData());
 
-            var_dump($data);
+            $data = $socket->getResponse();
 
-            $event = new DataFromServerEvent();
-            $event->setData($data)
-                    ->setConnection($socket);
+            $event = new DataFromServerEvent($data, $socket);
 
             $dispatcher->dispatch('whisnet_irc_bot.data_from_server', $event);
+
         } while(true);
     }
 }
