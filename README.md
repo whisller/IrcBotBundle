@@ -4,8 +4,9 @@ IrcBotBundle
 ## Installation
 
 1. Download IrcBotBundle
-2. Configure server, user
-3. Launch the IrcBot!
+2. Enable the bundle
+3. Configure server, user
+4. Launch the IrcBot!
 
 ### Step 1: Download IrcBotBundle
 
