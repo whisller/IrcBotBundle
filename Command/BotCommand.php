@@ -36,10 +36,8 @@ class BotCommand extends ContainerAwareCommand
         $userConfig = $this->getContainer()->getParameter('whisnet_irc_bot.user');
         $channels = $this->getContainer()->getParameter('whisnet_irc_bot.channels');
 
-        $socket = new Socket();
-        $socket->setServer($serverConfig[0])
-                ->setPort($serverConfig[1])
-                ->connect();
+        $socket = new Socket($serverConfig[0], $serverConfig[1]);
+        $socket->connect();
 
         $validator = $this->getContainer()->get('validator');
 
