@@ -83,7 +83,7 @@ So one thing you need to do is catch command event, and handle it.
 
 Best way to learn something is to see how does it work. So lets write simple command, which will be saying "Hi {user}!"
 
-## Step 1: Write listener
+### Step 1: Write listener
 
 ```php
 <?php
@@ -107,7 +107,7 @@ class HelloListener extends BasePluginListener
 }
 ```
 
-## Step 2: Register your listener
+### Step 2: Register your listener
 In this example we're using xml format, but you can do it in your yaml file instead.
 
 ```xml
@@ -128,7 +128,7 @@ E.g. "!bot hello whisller" will be parsed as:
 
 And then it trigger an event "whisnet_irc_bot.bot_command_hello" .
 
-## Step 3: Use your command
+### Step 3: Use your command
 
 ```bash
 !bot hello whisller
