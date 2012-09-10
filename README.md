@@ -70,3 +70,66 @@ whisnet_irc_bot:
 ``` bash
 $ php app/console irc:launch
 ```
+
+## Write your own bot's command.
+
+1. Write listener
+2. Register your listener
+3. Use your command
+
+When you want to write your own command it is really simple, because IrcBotBundle is working on Event Dispatcher.
+
+So one thing you need to do is catch command event, and handle it.
+
+Best way to learn something is to see how does it work. So lets write simple command, which will be saying "Hi {user}!"
+
+## Step 1: Write listener
+
+```php
+<?php
+namespace Acme\EventListener;
+
+use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
+use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
+
+class HelloListener extends BasePluginListener
+{
+    public function onCommand(BotCommandFoundEvent $event)
+    {
+        // get list of arguments passed after command
+        $args = $event->getArguments();
+
+        $msg = 'Hi! '.(isset($args[0]) ? $args[0] : 'nobody');
+
+        // write to the current channel
+        $this->sendMessage($event, array($event->getChannel()), $msg);
+    }
+}
+```
+
+## Step 2: Register your listener
+In this example we're using xml format, but you can do it in your yaml file instead.
+
+```xml
+<service id="whisnet_irc_bot.bot_command_hello_listener" class="Acme\EventListener\HelloListener">
+    <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_hello" method="onCommand"/>
+</service>
+```
+
+As you can see event name is "whisnet_irc_bot.bot_command_hello", bundle is listening on PRIVMSG message from server, then
+searching in it for string defined in "whisnet_irc_bot.command_prefix".
+
+If the "whisnet_irc_bot.command_prefix" string gonna by found, then bundle is trying to parse everything after it to read command name and arguments for pass to "BotCommandFoundEvent".
+
+E.g. "!bot hello whisller" will be parsed as:
+
+- command: "hello"
+- arg_0: "whisller"
+
+And then it trigger an event "whisnet_irc_bot.bot_command_hello" .
+
+## Step 3: Use your command
+
+```bash
+!bot hello whisller
+```
