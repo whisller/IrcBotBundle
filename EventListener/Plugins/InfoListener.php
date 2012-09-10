@@ -4,9 +4,6 @@ namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
-use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
-use Whisnet\IrcBotBundle\Message\Message;
-
 /**
  * Get information about bot.
  *
