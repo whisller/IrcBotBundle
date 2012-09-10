@@ -99,7 +99,7 @@ class HelloListener extends BasePluginListener
         // get list of arguments passed after command
         $args = $event->getArguments();
 
-        $msg = 'Hi! '.(isset($args[0]) ? $args[0] : 'nobody');
+        $msg = 'Hi, '.(isset($args[0]) ? $args[0] : 'nobody').' !';
 
         // write to the current channel
         $this->sendMessage($event, array($event->getChannel()), $msg);
