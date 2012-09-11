@@ -9,4 +9,4 @@ before_script:
     - COMPOSER_ROOT_VERSION=dev-master php composer.phar --dev install
 
 script:
-    - phpunit
+    - phpunit --coverage-text
