@@ -94,7 +94,7 @@ use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 use Whisnet\IrcBotBundle\Annotations as ircbot;
 
 /**
- * @ircbot\CommandInfo(name="hello", help="Say hello to user", arguments={"username"})
+ * @ircbot\CommandInfo(name="hello", help="Say hello to user", arguments={"<username>"})
  */
 class HelloListener extends BasePluginListener
 {
