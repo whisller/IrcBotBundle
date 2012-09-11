@@ -1,14 +1,16 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
+use Whisnet\IrcBotBundle\EventListener\Plugins\Interfaces\PluginInterface;
 use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
 use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
 use Whisnet\IrcBotBundle\Message\Message;
 
+
 /**
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-abstract class BasePluginListener
+abstract class BasePluginListener implements PluginInterface
 {
     /**
      * @param BaseIrcEvent $event

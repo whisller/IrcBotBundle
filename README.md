@@ -91,7 +91,11 @@ namespace Acme\EventListener;
 
 use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
+use Whisnet\IrcBotBundle\Annotations as ircbot;
 
+/**
+ * @ircbot\CommandInfo(name="hello", help="Say hello to user", arguments={"username"})
+ */
 class HelloListener extends BasePluginListener
 {
     public function onCommand(BotCommandFoundEvent $event)
@@ -112,6 +116,7 @@ In this example we're using xml format, but you can do it in your yaml file inst
 
 ```xml
 <service id="whisnet_irc_bot.bot_command_hello_listener" class="Acme\EventListener\HelloListener">
+    <tag name="whisnet_irc_bot.bot_command"/>
     <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_hello" method="onCommand"/>
 </service>
 ```

@@ -3,9 +3,12 @@ namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
 use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
+use Whisnet\IrcBotBundle\Annotations as ircbot;
 
 /**
  * Retrieve information about date/time.
+ *
+ * @ircbot\CommandInfo(name="time", help="Display time in format Y-m-d H:i:s", arguments={"[ <timezone> ]"})
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */

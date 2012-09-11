@@ -5,6 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="whisnet_irc_bot.help" class="Whisnet\IrcBotBundle\Utils\Help" />
+
         <service id="whisnet_irc_bot.data_from_server_listener" class="Whisnet\IrcBotBundle\EventListener\Irc\ServerRequestListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.data_from_server" method="onData" />
             <argument type="service" id="event_dispatcher"/>
@@ -21,26 +23,39 @@
         </service>
 
         <service id="whisnet_irc_bot.command_join_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\JoinListener">
+            <tag name="whisnet_irc_bot.bot_command" />
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_join" method="onCommand" />
         </service>
 
         <service id="whisnet_irc_bot.command_part_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\PartListener">
+            <tag name="whisnet_irc_bot.bot_command" />
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_part" method="onCommand" />
         </service>
 
         <service id="whisnet_irc_bot.command_quit_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\QuitListener">
+            <tag name="whisnet_irc_bot.bot_command" />
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_quit" method="onCommand" />
         </service>
 
         <service id="whisnet_irc_bot.bot_command_info_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\InfoListener">
+            <tag name="whisnet_irc_bot.bot_command" />
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_info" method="onCommand" />
         </service>
 
+        <service id="whisnet_irc_bot.bot_command_help_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\HelpListener">
+            <tag name="whisnet_irc_bot.bot_command" />
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_help" method="onCommand" />
+            <argument type="service" id="whisnet_irc_bot.help" />
+            <argument type="string">%whisnet_irc_bot.bot_command_prefix%</argument>
+        </service>
+
         <service id="whisnet_irc_bot.bot_command_datetime_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\DateTimeListener">
+            <tag name="whisnet_irc_bot.bot_command" />
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_time" method="onCommand" />
         </service>
 
         <service id="whisnet_irc_bot.bot_command_seen_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\SeenListener">
+            <tag name="whisnet_irc_bot.bot_command" />
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_seen" method="onCommand" />
             <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PRIVMSG" method="updateInformation" />
             <call method="setCacheDir">
