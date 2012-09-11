@@ -131,7 +131,7 @@ E.g. "!bot hello whisller" will be parsed as:
 - command: "hello"
 - arg_0: "whisller"
 
-And then it trigger an event "whisnet_irc_bot.bot_command_hello" .
+And then it trigger an event "whisnet_irc_bot.bot_command_hello".
 
 ### Step 3: Use your command
 
