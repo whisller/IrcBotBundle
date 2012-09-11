@@ -1,6 +1,8 @@
 IrcBotBundle
 ============
 
+[![Build Status](https://secure.travis-ci.org/whisller/IrcBotBundle.png)](http://travis-ci.org/whisller/IrcBotBundle)
+
 ## Installation
 
 1. Download IrcBotBundle
