@@ -13,7 +13,6 @@
     "support": {
         "issues": "https://github.com/whisller/IrcBotBundle/issues"
     },
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": "2.*"
