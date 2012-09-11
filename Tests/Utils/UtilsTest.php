@@ -11,7 +11,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function testThatEndOfLineMarkersAreRemoved($text, $expectedResult)
     {
-        $result = Utils::cleanUpServeRequest($text);
+        $result = Utils::cleanUpServerRequest($text);
 
         $this->assertSame($expectedResult, $result);
     }

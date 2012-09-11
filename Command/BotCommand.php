@@ -44,7 +44,7 @@ class BotCommand extends ContainerAwareCommand
         $socket->sendCommand(new JoinCommand($this->getContainer()->getParameter('whisnet_irc_bot.channels')));
 
         do {
-            $data = Utils::cleanUpServeRequest($socket->getData());
+            $data = Utils::cleanUpServerRequest($socket->getData());
 
             var_dump($data);
 
