@@ -3,7 +3,7 @@ namespace Whisnet\IrcBotBundle\EventListener\Plugins;
 
 use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
-use Whisnet\IrcBotBundle\Event\DataArrayFromServerEvent;
+use Whisnet\IrcBotBundle\Event\IrcCommandFoundEvent;
 use Whisnet\IrcBotBundle\Annotations as ircbot;
 
 /**
@@ -43,17 +43,17 @@ class SeenListener extends BasePluginListener
     }
 
     /**
-     * @param DataArrayFromServerEvent $event
+     * @param IrcCommandFoundEvent $event
      * @throws CommandException
      * @return boolean
      */
-    public function updateInformation(DataArrayFromServerEvent $event)
+    public function updateInformation(IrcCommandFoundEvent $event)
     {
         $data = $event->getData();
 
         $dateTime = new \DateTime('now', new \DateTimeZone(date_default_timezone_get()));
 
-        $this->writeToSeen($event->getNicknameFromString($data[0]), $dateTime->format('Y-m-d H:i:s'));
+        $this->writeToSeen($event->getNickname(), $dateTime->format('Y-m-d H:i:s'));
 
         unset($dateTime);
         unset($data);

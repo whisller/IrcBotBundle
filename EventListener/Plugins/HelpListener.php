@@ -41,6 +41,7 @@ class HelpListener extends BasePluginListener
      */
     public function onCommand(BotCommandFoundEvent $event)
     {
+                var_dump($event->getNickname());
         $this->sendMessage($event, array($event->getNickname()), 'IrcBotBundle (https://github.com/whisller/IrcBotBundle)');
         $this->sendMessage($event, array($event->getNickname()), 'Available commands:');
 

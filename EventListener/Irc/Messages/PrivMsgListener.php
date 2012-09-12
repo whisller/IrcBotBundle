@@ -1,32 +1,30 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Irc\Messages;
 
+use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
+use Whisnet\IrcBotBundle\EventListener\Irc\BaseIrcListener;
 use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
 /**
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class PrivMsgListener
+class PrivMsgListener extends BaseIrcListener
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
-
     /**
      * @var string
      */
     private $botCommandPrefix;
 
     /**
+     * @param ConnectionInterface $dispatcher
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(EventDispatcherInterface $dispatcher, $botCommandPrefix)
+    public function __construct(ConnectionInterface $connection, EventDispatcherInterface $dispatcher, $botCommandPrefix)
     {
-        $this->dispatcher = $dispatcher;
+        parent::__construct($connection, $dispatcher);
+
         $this->botCommandPrefix = $botCommandPrefix;
     }
 
@@ -45,13 +43,7 @@ class PrivMsgListener
             $command = $matches[0];
             $arguments = array_slice($matches, 1);
 
-            $botCommandFoundEvent = new BotCommandFoundEvent();
-            $botCommandFoundEvent->setChannel($data[3])
-                    ->setArguments($arguments)
-                    ->setConnection($event->getConnection())
-                    ->setNicknameFromString($data[0]);
-
-            $this->dispatcher->dispatch('whisnet_irc_bot.bot_command_'.$command, $botCommandFoundEvent);
+            $this->dispatcher->dispatch('whisnet_irc_bot.bot_command_'.$command, new BotCommandFoundEvent($data, $this->connection, $data[3], $arguments));
         }
     }
 

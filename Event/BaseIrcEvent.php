@@ -18,37 +18,15 @@ class BaseIrcEvent extends Event
     private $data;
 
     /**
-     * @var Socket
+     * @param array $data
      */
-    private $connection;
-
-    /**
-     * @param Socket $connection
-     * @return BotCommandFoundEvent
-     */
-    public function setConnection(Socket $connection)
-    {
-        $this->connection = $connection;
-
-        return $this;
-    }
-
-    /**
-     * @return Socket
-     */
-    public function getConnection()
-    {
-        return $this->connection;
-    }
-
-    /**
-     * @param mixed $data
-     */
-    public function setData($data)
+    public function __construct(array $data)
     {
         $this->data = $data;
 
-        return $this;
+        if (isset($data[0])) {
+            $this->setNicknameFromString($data[0]);
+        }
     }
 
     /**
@@ -61,31 +39,16 @@ class BaseIrcEvent extends Event
 
     /**
      * @param string $msg
-     * @return BotCommandFoundEvent
      */
-    public function setNicknameFromString($msg)
+    protected function setNicknameFromString($msg)
     {
-        $this->nickname = $this->getNicknameFromString($msg);
-
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function getNicknameFromString($msg)
-    {
-        $result = '';
-
         $regex = '/(?<=[^a-z_\-\[\]\\^{}|`])[a-z_\-\[\]\\^{}|`][a-z0-9_\-\[\]\\^{}|`]*/i'; // http://stackoverflow.com/a/5163309
 
         if (preg_match($regex, $msg, $matches)) {
             if (isset($matches[0])) {
-                $result = $matches[0];
+                $this->nickname = $matches[0];
             }
         }
-
-        return $result;
     }
 
     /**

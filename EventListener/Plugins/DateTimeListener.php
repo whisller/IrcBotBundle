@@ -28,10 +28,6 @@ class DateTimeListener extends BasePluginListener
         if (isset($arguments[0]) && ('' !== trim($arguments[0]))) {
             if (in_array($arguments[0], \DateTimeZone::listIdentifiers())) {
                 $timezone = $arguments[0];
-            } else {
-                $this->sendMessage($event, array($event->getChannel()), $event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen);
-
-                return false;
             }
         }
 

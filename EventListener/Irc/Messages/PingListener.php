@@ -1,15 +1,15 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Irc\Messages;
 
+use Whisnet\IrcBotBundle\EventListener\Irc\BaseIrcListener;
 use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
-
 use Whisnet\IrcBotBundle\IrcCommands\PongCommand;
 
 /**
  * @author Daniel Ancuta <whisller@gmail.com>
  */
 
-class PingListener
+class PingListener extends BaseIrcListener
 {
     /**
      * @param BaseIrcEvent $event
@@ -18,6 +18,6 @@ class PingListener
     {
         $data = $event->getData();
 
-        $event->getConnection()->sendCommand(new PongCommand(array($data[4])));
+        $this->connection->sendCommand(new PongCommand(array($data[4])));
     }
 }

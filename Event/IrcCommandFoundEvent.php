@@ -8,6 +8,7 @@ use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class DataArrayFromServerEvent extends BaseIrcEvent
+class IrcCommandFoundEvent extends BaseIrcEvent
 {
+    
 }

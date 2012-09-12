@@ -42,11 +42,7 @@ class BotCommand extends ContainerAwareCommand
 
             var_dump($data);
 
-            $event = new DataFromServerEvent();
-            $event->setData($data)
-                    ->setConnection($socket);
-
-            $dispatcher->dispatch('whisnet_irc_bot.data_from_server', $event);
+            $dispatcher->dispatch('whisnet_irc_bot.data_from_server', new DataFromServerEvent($data));
         } while(true);
     }
 }

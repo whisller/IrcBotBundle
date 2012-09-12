@@ -1,6 +1,7 @@
 <?php
 namespace Whisnet\IrcBotBundle\Event;
 
+use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
 use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
 
 /**
@@ -10,6 +11,11 @@ use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
  */
 class BotCommandFoundEvent extends BaseIrcEvent
 {
+    /**
+     * @var ConnectionInterface
+     */
+    protected $connection;
+
     /**
      * @var array
      */
@@ -21,14 +27,18 @@ class BotCommandFoundEvent extends BaseIrcEvent
     private $channel;
 
     /**
+     * @param array $data
+     * @param ConnectionInterface $connection
+     * @param string $channel
      * @param array $arguments
-     * @return BotCommandFoundEvent
      */
-    public function setArguments(array $arguments)
+    public function __construct(array $data, ConnectionInterface $connection, $channel, array $arguments)
     {
-        $this->arguments = $arguments;
+        parent::__construct($data);
 
-        return $this;
+        $this->connection = $connection;
+        $this->channel = $channel;
+        $this->arguments = $arguments;
     }
 
     /**
@@ -40,21 +50,18 @@ class BotCommandFoundEvent extends BaseIrcEvent
     }
 
     /**
-     * @param string $channel
-     * @return BotCommandFoundEvent
-     */
-    public function setChannel($channel)
-    {
-        $this->channel = $channel;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getChannel()
     {
         return $this->channel;
+    }
+
+    /**
+     * @return ConnectionInterface
+     */
+    public function getConnection()
+    {
+        return $this->connection;
     }
 }

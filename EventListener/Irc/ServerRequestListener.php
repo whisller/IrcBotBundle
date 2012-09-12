@@ -1,11 +1,9 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Irc;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
+use Whisnet\IrcBotBundle\EventListener\Irc\BaseIrcListener;
 use Whisnet\IrcBotBundle\Event\DataFromServerEvent;
-use Whisnet\IrcBotBundle\Event\DataArrayFromServerEvent;
-
+use Whisnet\IrcBotBundle\Event\IrcCommandFoundEvent;
 use Whisnet\IrcBotBundle\IrcCommands\TimeCommand;
 
 /**
@@ -13,22 +11,8 @@ use Whisnet\IrcBotBundle\IrcCommands\TimeCommand;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class ServerRequestListener
+class ServerRequestListener extends BaseIrcListener
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
-
-    /**
-     * @param EventDispatcherInterface $dispatcher
-     * @param ValidatorInterface $validator
-     */
-    public function __construct(EventDispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
-    }
-
     /**
      * @param DataFromServerEvent $event
      */
@@ -50,7 +34,7 @@ class ServerRequestListener
      */
     private function processEmptyData(DataFromServerEvent $event)
     {
-        $event->getConnection()->sendCommand(new TimeCommand());
+        $this->connection->sendCommand(new TimeCommand());
     }
 
     /**
@@ -64,12 +48,7 @@ class ServerRequestListener
         preg_match($regex, $event->getData(), $matches);
 
         if (isset($matches[2]) && ('' !== trim($matches[2]))) {
-            $dataArrayFromServerEvent = new DataArrayFromServerEvent();
-            $dataArrayFromServerEvent->setData($matches)
-                    ->setConnection($event->getConnection())
-                    ->setNicknameFromString($matches[0]);
-
-            $this->dispatcher->dispatch('whisnet_irc_bot.irc_command_'.$matches[2], $dataArrayFromServerEvent);
+            $this->dispatcher->dispatch('whisnet_irc_bot.irc_command_'.$matches[2], new IrcCommandFoundEvent($matches));
         }
     }
 }
