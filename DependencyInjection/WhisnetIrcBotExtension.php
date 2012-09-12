@@ -25,8 +25,10 @@ class WhisnetIrcBotExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        $container->setParameter('whisnet_irc_bot.connection_class', $config['connection_class']);
         $container->setParameter('whisnet_irc_bot.user', $config['user']);
-        $container->setParameter('whisnet_irc_bot.server', array($config['host'], $config['port']));
+        $container->setParameter('whisnet_irc_bot.host', $config['host']);
+        $container->setParameter('whisnet_irc_bot.port', $config['port']);
         $container->setParameter('whisnet_irc_bot.channels', $config['channels']);
         $container->setParameter('whisnet_irc_bot.bot_command_prefix', $config['command_prefix']);
     }

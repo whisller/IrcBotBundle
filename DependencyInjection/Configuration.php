@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('connection_class')->defaultValue('Whisnet\IrcBotBundle\Connection\Socket')->end()
                 ->scalarNode('host')->defaultValue('irc.freenode.net')->end()
                 ->scalarNode('port')->defaultValue('6667')->end()
                 ->scalarNode('command_prefix')
