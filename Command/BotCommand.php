@@ -2,17 +2,13 @@
 namespace Whisnet\IrcBotBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Whisnet\IrcBotBundle\Connection\Socket;
 use Whisnet\IrcBotBundle\Event\DataFromServerEvent;
 use Whisnet\IrcBotBundle\IrcCommands\UserCommand;
 use Whisnet\IrcBotBundle\IrcCommands\NickCommand;
 use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
-use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
 use Whisnet\IrcBotBundle\Utils\Utils;
 
 /**
