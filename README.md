@@ -140,3 +140,19 @@ And then it trigger an event "whisnet_irc_bot.bot_command_hello".
 ```bash
 !bot hello whisller
 ```
+
+## Events list
+
+### Server events
+
+Bundle is triggering events based on server messages.
+E.g. whisnet_irc_bot.irc_command_PRIVMSG, whisnet_irc_bot.irc_command_MODE, whisnet_irc_bot.irc_command_372, whisnet_irc_bot.irc_command_NOTICE, whisnet_irc_bot.irc_command_391 and so on.
+
+The event name is really simple, it is based on prefix "whisnet_irc_bot.irc_command_" and a type of message sent by server, e.g. "PRIVMSG".
+So you can listen on all events sent by server to make your own extends of bundle.
+
+All list of commands you can find on http://tools.ietf.org/html/rfc2812
+
+### Bot commands
+If Whisnet\IrcBotBundle\EventListener\Irc\Messages\PrivMsgListener::onData decide that message wrote on channel are a irc bot command then it trigger an event "whisnet_irc_bot.bot_command_COMMANDNAME"
+e.g. whisnet_irc_bot.bot_command_time, whisnet_irc_bot.bot_command_seen.
