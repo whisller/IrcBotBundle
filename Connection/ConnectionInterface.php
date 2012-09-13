@@ -3,6 +3,7 @@
 namespace Whisnet\IrcBotBundle\Connection;
 
 use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * IRC Bot
@@ -40,7 +41,7 @@ interface ConnectionInterface
      * @param integer $port
      * @param ValidatorInterface $validator
      */
-    public function __construct($server, $port = 6667, ValidatorInterface $validator);
+    public function __construct($server, $port = 6667, ValidatorInterface $validator, EventDispatcherInterface $dispatcher);
 
     /**
      * Establishs the connection to the server.

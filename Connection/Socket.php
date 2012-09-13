@@ -2,7 +2,9 @@
 namespace Whisnet\IrcBotBundle\Connection;
 
 use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Whisnet\IrcBotBundle\IrcCommands\Interfaces\CommandInterface;
+use Whisnet\IrcBotBundle\Event\Connection\PostConnectionEvent;
 
 /**
  * IRC Bot
@@ -54,13 +56,19 @@ class Socket implements ConnectionInterface
     private $validator;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
+
+    /**
      * {@inheritdoc}
      */
-    public function __construct($server, $port = 6667, ValidatorInterface $validator)
+    public function __construct($server, $port = 6667, ValidatorInterface $validator, EventDispatcherInterface $dispatcher)
     {
         $this->server = $server;
         $this->port = $port;
         $this->validator = $validator;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -80,6 +88,8 @@ class Socket implements ConnectionInterface
         if (!$this->isConnected()) {
             throw new Exception('Unable to connect to server via fsockopen with server: "'.$this->server.'" and port: "'.$this->port.'".');
         }
+
+        $this->dispatcher->dispatch('whisnet_irc_bot.post_connection', new PostConnectionEvent());
     }
 
     /**
@@ -95,7 +105,7 @@ class Socket implements ConnectionInterface
      */
     public function sendData($data)
     {
-        return fwrite( $this->socket, $data );
+        return fwrite($this->socket, $data);
     }
 
     /**
@@ -125,6 +135,7 @@ class Socket implements ConnectionInterface
         if (is_resource($this->socket)) {
             return true;
         }
+
         return false;
     }
 }

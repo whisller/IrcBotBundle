@@ -1,7 +1,7 @@
 <?php
-namespace Whisnet\IrcBotBundle\EventListener\Plugins;
+namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 
-use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
+use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\CommandListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 use Whisnet\IrcBotBundle\Annotations as ircbot;
 use Whisnet\IrcBotBundle\Utils\Help;
@@ -13,7 +13,7 @@ use Whisnet\IrcBotBundle\Utils\Help;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class HelpListener extends BasePluginListener
+class HelpCommandListener extends CommandListener
 {
     /**
      * @var Help
@@ -41,7 +41,6 @@ class HelpListener extends BasePluginListener
      */
     public function onCommand(BotCommandFoundEvent $event)
     {
-                var_dump($event->getNickname());
         $this->sendMessage($event, array($event->getNickname()), 'IrcBotBundle (https://github.com/whisller/IrcBotBundle)');
         $this->sendMessage($event, array($event->getNickname()), 'Available commands:');
 

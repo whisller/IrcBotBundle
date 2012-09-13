@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="whisnet_irc_bot.command_PING_listener" class="Whisnet\IrcBotBundle\EventListener\Irc\Messages\PingListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PING" method="onData"/>
+            <argument type="service" id="whisnet_irc_bot.connection"/>
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+
+        <service id="whisnet_irc_bot.command_PRIVMSG_listener" class="Whisnet\IrcBotBundle\EventListener\Irc\Messages\PrivMsgListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PRIVMSG" method="onData"/>
+            <argument type="service" id="whisnet_irc_bot.connection"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="string">%whisnet_irc_bot.bot_command_prefix%</argument>
+        </service>
+    </services>
+
+</container>

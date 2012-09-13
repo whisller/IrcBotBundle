@@ -1,7 +1,7 @@
 <?php
-namespace Whisnet\IrcBotBundle\EventListener\Plugins;
+namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 
-use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
+use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\CommandListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 use Whisnet\IrcBotBundle\Event\IrcCommandFoundEvent;
 use Whisnet\IrcBotBundle\Annotations as ircbot;
@@ -14,7 +14,7 @@ use Whisnet\IrcBotBundle\Annotations as ircbot;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class SeenListener extends BasePluginListener
+class SeenCommandListener extends CommandListener
 {
     /**
      * @var string

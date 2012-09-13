@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="whisnet_irc_bot.connection" class="%whisnet_irc_bot.connection_class%">
+            <argument type="string">%whisnet_irc_bot.host%</argument>
+            <argument type="string">%whisnet_irc_bot.port%</argument>
+            <argument type="service" id="validator"/>
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+
+        <service id="whisnet_irc_bot.help" class="Whisnet\IrcBotBundle\Utils\Help" />
+
+        <service id="whisnet_irc_bot.load_user_core_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\Core\LoadUserCoreListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.post_connection" method="onCore"/>
+            <argument type="service" id="whisnet_irc_bot.connection"/>
+            <call method="setConfig">
+                <argument type="string">%whisnet_irc_bot.user%</argument>
+                <argument type="string">%whisnet_irc_bot.channels%</argument>
+            </call>
+        </service>
+
+        <service id="whisnet_irc_bot.data_from_server_listener" class="Whisnet\IrcBotBundle\EventListener\Irc\ServerRequestListener">
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.data_from_server" method="onData"/>
+            <argument type="service" id="whisnet_irc_bot.connection"/>
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+    </services>
+
+</container>

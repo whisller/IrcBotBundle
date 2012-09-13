@@ -1,7 +1,7 @@
 <?php
-namespace Whisnet\IrcBotBundle\EventListener\Plugins;
+namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 
-use Whisnet\IrcBotBundle\EventListener\Plugins\Interfaces\PluginInterface;
+use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\Interfaces\CommandInterface;
 use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
 use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
 use Whisnet\IrcBotBundle\Message\Message;
@@ -10,7 +10,7 @@ use Whisnet\IrcBotBundle\Message\Message;
 /**
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-abstract class BasePluginListener implements PluginInterface
+abstract class CommandListener implements CommandInterface
 {
     /**
      * @param BaseIrcEvent $event

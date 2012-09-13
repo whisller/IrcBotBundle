@@ -92,14 +92,14 @@ Best way to learn something is to see how does it work. So lets write simple com
 <?php
 namespace Acme\EventListener;
 
-use Whisnet\IrcBotBundle\EventListener\Plugins\BasePluginListener;
+use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\CommandListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 use Whisnet\IrcBotBundle\Annotations as ircbot;
 
 /**
  * @ircbot\CommandInfo(name="hello", help="Say hello to user", arguments={"<username>"})
  */
-class HelloListener extends BasePluginListener
+class HelloListener extends CommandListener
 {
     public function onCommand(BotCommandFoundEvent $event)
     {
@@ -137,16 +137,34 @@ And then it trigger an event "whisnet_irc_bot.bot_command_hello".
 
 ### Step 3: Use your command
 
-```bash
+```
 !bot hello whisller
 ```
 
 ## Events list
 
+### IrcBotBundle events
+
+```
+whisnet_irc_bot.post_connection
+```
+
+This event is triggered after connection to the server is established.
+The example of use this event you can find in Whisnet\IrcBotBundle\EventListener\Plugins\Core\LoadUserCoreListener class.
+
 ### Server events
 
 Bundle is triggering events based on server messages.
-E.g. whisnet_irc_bot.irc_command_PRIVMSG, whisnet_irc_bot.irc_command_MODE, whisnet_irc_bot.irc_command_372, whisnet_irc_bot.irc_command_NOTICE, whisnet_irc_bot.irc_command_391 and so on.
+E.g.
+
+```
+whisnet_irc_bot.irc_command_PRIVMSG
+whisnet_irc_bot.irc_command_MODE
+whisnet_irc_bot.irc_command_372
+whisnet_irc_bot.irc_command_NOTICE
+whisnet_irc_bot.irc_command_391
+```
+and so on.
 
 The event name is really simple, it is based on prefix "whisnet_irc_bot.irc_command_" and a type of message sent by server, e.g. "PRIVMSG".
 So you can listen on all events sent by server to make your own extends of bundle.
