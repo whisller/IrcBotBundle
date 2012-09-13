@@ -1,6 +1,8 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands\Interfaces;
 
+use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
+
 /**
  * Interface for bot's commands.
  *
@@ -8,4 +10,8 @@ namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands\Interfaces;
  */
 interface CommandInterface
 {
+    /**
+     * @param ConnectionInterface $connection
+     */
+    public function __construct(ConnectionInterface $connection);
 }

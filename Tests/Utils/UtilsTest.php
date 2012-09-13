@@ -1,5 +1,4 @@
 <?php
-
 namespace Whisnet\IrcBotBundle\Tests\Utils;
 
 use Whisnet\IrcBotBundle\Utils\Utils;

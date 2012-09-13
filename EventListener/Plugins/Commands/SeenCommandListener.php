@@ -4,13 +4,10 @@ namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\CommandListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 use Whisnet\IrcBotBundle\Event\IrcCommandFoundEvent;
-use Whisnet\IrcBotBundle\Annotations as ircbot;
 
 /**
  * Listener is adding "last seen" functionality.
  * It read and update information about last seen of user.
- *
- * @ircbot\CommandInfo(name="seen", help="Display when specified user were last seen", arguments={"<username>"})
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */

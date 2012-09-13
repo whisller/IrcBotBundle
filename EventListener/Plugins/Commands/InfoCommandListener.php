@@ -3,12 +3,9 @@ namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 
 use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\CommandListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
-use Whisnet\IrcBotBundle\Annotations as ircbot;
 
 /**
  * Get information about bot.
- *
- * @ircbot\CommandInfo(name="info", help="Display simple info about IrcBot")
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */

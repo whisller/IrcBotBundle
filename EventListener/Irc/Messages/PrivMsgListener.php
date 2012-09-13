@@ -43,7 +43,7 @@ class PrivMsgListener extends BaseIrcListener
             $command = $matches[0];
             $arguments = array_slice($matches, 1);
 
-            $this->dispatcher->dispatch('whisnet_irc_bot.bot_command_'.$command, new BotCommandFoundEvent($data, $this->connection, $data[3], $arguments));
+            $this->dispatcher->dispatch('whisnet_irc_bot.bot_command_'.$command, new BotCommandFoundEvent($data, $data[3], $arguments));
         }
     }
 

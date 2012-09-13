@@ -2,6 +2,7 @@
 
 namespace Whisnet\IrcBotBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -34,5 +35,11 @@ class WhisnetIrcBotExtension extends Extension
         $container->setParameter('whisnet_irc_bot.port', $config['port']);
         $container->setParameter('whisnet_irc_bot.channels', $config['channels']);
         $container->setParameter('whisnet_irc_bot.bot_command_prefix', $config['command_prefix']);
+
+        if (!$container->hasDefinition('whisnet_irc_bot.commands_info_holder')) {
+            $taggedServiceHolder = new Definition();
+            $taggedServiceHolder->setClass('SplDoublyLinkedList');
+            $container->setDefinition('whisnet_irc_bot.commands_info_holder', $taggedServiceHolder);
+        }
     }
 }
