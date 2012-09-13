@@ -23,7 +23,7 @@ abstract class Command implements CommandInterface
      */
     public function setValidator(ValidatorInterface $validator)
     {
-        if($this->validator == null) {
+        if ($this->validator == null) {
             $this->validator = $validator;
         }
     }
