@@ -1,52 +1,47 @@
 <?php
 namespace Whisnet\IrcBotBundle\IrcCommands;
 
-use Symfony\Component\Validator\Constraints\NotBlank;
-
 /**
- * http://tools.ietf.org/html/rfc2812#section-3.2.1
+ * http://tools.ietf.org/html/rfc2812#section-3.2.6
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class JoinCommand extends Command
+class ListCommand extends Command
 {
     /**
      * @var array
-     * @NotBlank()
      */
     private $channels;
 
     /**
-     * @var array
+     * @var string|false
      */
-    private $keys;
+    private $target;
 
     /**
      * @return string
      */
     protected function getName()
     {
-        return 'JOIN';
+        return 'LIST';
     }
 
     /**
      * @param array $channels
      * @param array $keys
      */
-    public function __construct(array $channels, array $keys = array())
+    public function __construct(array $channels=array(), $target=false)
     {
         foreach ($channels as $channel) {
             $this->addChannel($channel);
         }
 
-        foreach ($keys as $key) {
-            $this->addKey($key);
-        }
+        $this->setTarget($target);
     }
 
     /**
      * @param string $channel
-     * @return JoinCommand
+     * @return NamesCommand
      */
     protected function addChannel($channel)
     {
@@ -58,16 +53,11 @@ class JoinCommand extends Command
     }
 
     /**
-     * @param string $key
-     * @return JoinCommand
+     * @param string|false $target
      */
-    protected function addKey($key)
+    protected function setTarget($target)
     {
-        if ('' !== trim($key)) {
-            $this->keys[] = $key;
-        }
-
-        return $this;
+        $this->target = $target;
     }
 
     /**
@@ -75,8 +65,8 @@ class JoinCommand extends Command
      */
     protected function getArguments()
     {
-        $result = implode(',', $this->channels);
-        $result .= 0 < count($this->keys) ? (' '.implode(',', $this->keys)) : '';
+        $result = 0 < count($this->channels) ? implode(',', $this->channels) : '';
+        $result .= 0 < mb_strlen($this->target) ? (' '.$this->target) : '';
 
         return $result;
     }

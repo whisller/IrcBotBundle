@@ -62,9 +62,8 @@ whisnet_irc_bot:
     port: 6667
     command_prefix: !bot
     user:
-        username: IrcBotBundle
-        hostname: example.com
-        realname: IrcBotBundle
+        username: IrcBotBunle
+        mode: 8
         servername: IrcBotBundle
     channels: ["#test-irc", "#test-other-irc"]
 ```

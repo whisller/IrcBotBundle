@@ -2,6 +2,8 @@
 namespace Whisnet\IrcBotBundle\IrcCommands;
 
 /**
+ * http://tools.ietf.org/html/rfc2812#section-3.1.7
+ *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
 class QuitCommand extends Command
