@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class JoinCommand extends Command
+class TopicCommand extends Command
 {
     /**
      * @var string
