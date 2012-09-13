@@ -57,6 +57,7 @@ whisnet_irc_bot:
 Advanced configuration:
 ```yaml
 whisnet_irc_bot:
+    connection_class: Whisnet\IrcBotBundle\Connection\Socket
     host: irc.freenode.net
     port: 6667
     command_prefix: !bot
