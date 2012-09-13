@@ -114,7 +114,6 @@ class HelloListener extends BasePluginListener
 ```
 
 ### Step 2: Register your listener
-In this example we're using xml format, but you can do it in your yaml file instead.
 
 ```xml
 <service id="whisnet_irc_bot.bot_command_hello_listener" class="Acme\EventListener\HelloListener">
