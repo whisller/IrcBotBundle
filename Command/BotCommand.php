@@ -36,3 +36,4 @@ class BotCommand extends ContainerAwareCommand
         } while(true);
     }
 }
+
