@@ -19,4 +19,9 @@ class ListCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals("LIST #foo,#bar\r", (string)new ListCommand(array('#foo', '#bar')));
     }
+
+    public function test__toStringTwoMixedChannels()
+    {
+        $this->assertEquals("LIST #foo,&bar\r", (string)new ListCommand(array('#foo', '&bar')));
+    }
 }

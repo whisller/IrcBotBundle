@@ -4,6 +4,8 @@ namespace Whisnet\IrcBotBundle\IrcCommands;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
+ * http://tools.ietf.org/html/rfc2812#section-3.7.3
+ *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
 class PongCommand extends Command
@@ -46,6 +48,6 @@ class PongCommand extends Command
      */
     protected function getArguments()
     {
-        return implode(',', $this->daemon);
+        return implode(' ', $this->daemon);
     }
 }

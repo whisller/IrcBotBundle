@@ -1,6 +1,8 @@
 <?php
 namespace Whisnet\IrcBotBundle\IrcCommands;
 
+use Whisnet\IrcBotBundle\Message\Message;
+
 /**
  * http://tools.ietf.org/html/rfc2812#section-3.1.7
  *
@@ -22,20 +24,22 @@ class QuitCommand extends Command
     }
 
     /**
-     * @param string $message
+     * @param Message $message
      */
-    public function __construct($message = '')
+    public function __construct(Message $message = null)
     {
         $this->setMessage($message);
     }
 
     /**
-     * @param string $message
+     * @param Message $message
      * @return QuitCommand
      */
-    protected function setMessage($message)
+    protected function setMessage(Message $message = null)
     {
-        $this->message = $message;
+        if (null !== $message) {
+            $this->message = (string)$message;
+        }
 
         return $this;
     }

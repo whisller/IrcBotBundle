@@ -6,6 +6,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Whisnet\IrcBotBundle\Message\Message;
 
 /**
+ * http://tools.ietf.org/html/rfc2812#section-3.3.1
+ *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
 class PrivMsgCommand extends Command
