@@ -2,6 +2,7 @@
 namespace Whisnet\IrcBotBundle\IrcCommands;
 
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Whisnet\IrcBotBundle\Message\Message;
 
 /**
  * http://tools.ietf.org/html/rfc2812#section-3.2.2
@@ -32,7 +33,7 @@ class PartCommand extends Command
     /**
      * @param array $channels
      */
-    public function __construct(array $channels, $message = '')
+    public function __construct(array $channels, Message $message = null)
     {
         foreach ($channels as $channel) {
             $this->addChannel($channel);
@@ -55,11 +56,16 @@ class PartCommand extends Command
     }
 
     /**
-     * @param string $message
+     * @param Message $message
+     * @return PartCommand
      */
-    protected function setMessage($message)
+    protected function setMessage(Message $message = null)
     {
-        $this->message = trim($message);
+        if (null !== $message) {
+            $this->message = trim((string)$message);
+        }
+
+        return $this;
     }
 
     /**
@@ -67,6 +73,6 @@ class PartCommand extends Command
      */
     protected function getArguments()
     {
-        return implode(',', $this->channels).(0 < mb_strlen($this->message) ? (' '.$this->message) : '');
+        return implode(',', $this->channels).(null !== $this->message ? (' '.$this->message) : '');
     }
 }

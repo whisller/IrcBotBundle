@@ -3,6 +3,7 @@ namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 
 use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\CommandListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
+use Whisnet\IrcBotBundle\Message\Message;
 use Whisnet\IrcBotBundle\IrcCommands\PartCommand;
 
 /**
@@ -20,6 +21,8 @@ class PartCommandListener extends CommandListener
      */
     public function onCommand(BotCommandFoundEvent $event)
     {
-        $event->getConnection()->sendCommand(new PartCommand($event->getArguments()));
+        $data = $event->getArguments();
+
+        $this->connection->sendCommand(new PartCommand(new Message((isset($data[0]) ? $data[0] : ''))));
     }
 }
