@@ -3,6 +3,7 @@ namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 
 use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\Interfaces\CommandInterface;
 use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
+use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
 use Whisnet\IrcBotBundle\Message\Message;
 
@@ -35,8 +36,7 @@ abstract class CommandListener implements CommandInterface
     }
 
     /**
-     * @param BotCommandFoundEvent $event
-     * @throws CommandException If validation of command do not pass
+     * {@inheritdoc}
      */
     abstract public function onCommand(BotCommandFoundEvent $event);
 }

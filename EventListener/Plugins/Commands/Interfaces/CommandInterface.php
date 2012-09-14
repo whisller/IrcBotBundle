@@ -2,6 +2,7 @@
 namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands\Interfaces;
 
 use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
+use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
 /**
  * Interface for bot's commands.
@@ -14,4 +15,10 @@ interface CommandInterface
      * @param ConnectionInterface $connection
      */
     public function __construct(ConnectionInterface $connection);
+
+    /**
+     * @param BotCommandFoundEvent $event
+     * @throws CommandException If validation of command do not pass
+     */
+    public function onCommand(BotCommandFoundEvent $event);
 }
