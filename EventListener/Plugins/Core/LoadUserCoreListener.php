@@ -29,7 +29,7 @@ class LoadUserCoreListener extends CoreListener
      */
     public function onCore(PostConnectionEvent $event)
     {
-        $this->connection->sendCommand(new UserCommand($this->user['username'], $this->user['hostname'], $this->user['servername'], $this->user['realname']));
+        $this->connection->sendCommand(new UserCommand($this->user['username'], $this->user['mode'], $this->user['realname']));
         $this->connection->sendCommand(new NickCommand($this->user['username']));
         $this->connection->sendCommand(new JoinCommand($this->channels));
     }
