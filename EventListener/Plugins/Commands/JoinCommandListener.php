@@ -13,9 +13,7 @@ use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
 class JoinCommandListener extends CommandListener
 {
     /**
-     * @param BotCommandFoundEvent $event
-     * @throws CommandException
-     * @return boolean
+     * {@inheritdoc}
      */
     public function onCommand(BotCommandFoundEvent $event)
     {

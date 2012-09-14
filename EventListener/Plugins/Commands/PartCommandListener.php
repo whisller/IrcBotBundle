@@ -15,9 +15,7 @@ use Whisnet\IrcBotBundle\IrcCommands\PartCommand;
 class PartCommandListener extends CommandListener
 {
     /**
-     * @param BotCommandFoundEvent $event
-     * @throws CommandException
-     * @return boolean
+     * {@inheritdoc}
      */
     public function onCommand(BotCommandFoundEvent $event)
     {

@@ -33,4 +33,10 @@ abstract class CommandListener implements CommandInterface
         $this->connection->sendCommand(new PrivMsgCommand($receivers,
                                        new Message($msg)));
     }
+
+    /**
+     * @param BotCommandFoundEvent $event
+     * @throws CommandException If validation of command do not pass
+     */
+    abstract public function onCommand(BotCommandFoundEvent $event);
 }

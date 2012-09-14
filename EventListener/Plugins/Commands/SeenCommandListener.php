@@ -19,9 +19,7 @@ class SeenCommandListener extends CommandListener
     private $cacheFile;
 
     /**
-     * @param BotCommandFoundEvent $event
-     * @throws CommandException
-     * @return boolean
+     * {@inheritdoc}
      */
     public function onCommand(BotCommandFoundEvent $event)
     {
