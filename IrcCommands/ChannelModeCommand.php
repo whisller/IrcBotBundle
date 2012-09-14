@@ -51,7 +51,7 @@ class ChannelModeCommand extends Command
      * @param string $channel
      * @return ChannelModeCommand
      */
-    protected function setNickname($channel)
+    protected function setChannel($channel)
     {
         $this->channel = trim($channel);
 
@@ -85,7 +85,7 @@ class ChannelModeCommand extends Command
      */
     protected function getArguments()
     {
-        $result = $this->nickname.' '.$this->mode;
+        $result = $this->channel.' '.$this->mode.(0 < mb_strlen($this->modeParams) ? ' '.$this->modeParams : '');
 
         return $result;
     }
