@@ -82,7 +82,7 @@ class UserCommand extends Command
         $result = '';
 
         $result = $this->username.' ';
-        $result .= $this->mode.' ';
+        $result .= $this->mode;
         $result .= ' * ';
         $result .= ':'.(!empty($this->realname) ? $this->realname : $this->username);
 

@@ -33,7 +33,7 @@ class TopicCommand extends Command
      * @param string $channel
      * @param string|false $topic
      */
-    public function __construct(array $channel, $topic = false)
+    public function __construct($channel, $topic = false)
     {
         $this->setChannel($channel);
         $this->setTopic($topic);
@@ -66,7 +66,7 @@ class TopicCommand extends Command
      */
     protected function getArguments()
     {
-        $result = $this->channel.(false !== $this->topic ? (' '.$this->topic) : '');
+        $result = $this->channel.(false !== $this->topic ? (' :'.$this->topic) : '');
 
         return $result;
     }
