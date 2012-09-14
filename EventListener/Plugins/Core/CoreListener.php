@@ -15,7 +15,7 @@ abstract class CoreListener implements CoreInterface
     protected $connection;
 
     /**
-     * @param ConnectionInterface $connection
+     * {@inheritdoc}
      */
     public function __construct(ConnectionInterface $connection)
     {
