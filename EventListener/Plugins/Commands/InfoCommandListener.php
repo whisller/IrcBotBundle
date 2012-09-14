@@ -20,6 +20,6 @@ class InfoCommandListener extends CommandListener
     {
         $msg = 'Hi! My name is IrcBotBundle, you can find me on github (https://github.com/whisller/IrcBotBundle).';
 
-        $this->sendMessage($event, array($event->getChannel()), $msg);
+        $this->sendMessage(array($event->getChannel()), $msg);
     }
 }

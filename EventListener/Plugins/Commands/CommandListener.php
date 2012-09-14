@@ -1,9 +1,8 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 
-use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
 use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\Interfaces\CommandInterface;
-use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
+use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
 use Whisnet\IrcBotBundle\IrcCommands\PrivMsgCommand;
 use Whisnet\IrcBotBundle\Message\Message;
 
@@ -26,11 +25,10 @@ abstract class CommandListener implements CommandInterface
     }
 
     /**
-     * @param BaseIrcEvent $event
      * @param array $receivers
      * @param string $msg
      */
-    protected function sendMessage(BaseIrcEvent $event, array $receivers, $msg)
+    protected function sendMessage(array $receivers, $msg)
     {
         $this->connection->sendCommand(new PrivMsgCommand($receivers,
                                        new Message($msg)));

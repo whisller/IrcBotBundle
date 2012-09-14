@@ -32,7 +32,7 @@ class SeenCommandListener extends CommandListener
         } else {
             $seen = $this->readFromSeen($arguments[0]);
             if ($seen) {
-                $this->sendMessage($event, array($event->getChannel()), $event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen);
+                $this->sendMessage(array($event->getChannel()), $event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen);
             } else {
                 $this->noInformationAvailable($event);
             }
@@ -44,7 +44,7 @@ class SeenCommandListener extends CommandListener
      * @throws CommandException
      * @return boolean
      */
-    public function updateInformation(IrcCommandFoundEvent $event)
+    public function onUpdateInformation(IrcCommandFoundEvent $event)
     {
         $data = $event->getData();
 
@@ -63,7 +63,7 @@ class SeenCommandListener extends CommandListener
     {
         $arguments = $event->getArguments();
 
-        $this->sendMessage($event, array($event->getChannel()), 'Sorry '.$event->getNickname().' I don\'t have information about '.$arguments[0]);
+        $this->sendMessage(array($event->getChannel()), 'Sorry '.$event->getNickname().' I don\'t have information about '.$arguments[0]);
     }
 
     /**
@@ -71,7 +71,7 @@ class SeenCommandListener extends CommandListener
      */
     private function noNickname(BotCommandFoundEvent $event)
     {
-        $this->sendMessage($event, array($event->getChannel()), $event->getNickname().' who are you looking for?');
+        $this->sendMessage(array($event->getChannel()), $event->getNickname().' who are you looking for?');
     }
 
     /**

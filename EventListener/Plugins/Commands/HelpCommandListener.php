@@ -1,7 +1,6 @@
 <?php
 namespace Whisnet\IrcBotBundle\EventListener\Plugins\Commands;
 
-use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
 use Whisnet\IrcBotBundle\EventListener\Plugins\Commands\CommandListener;
 use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 
@@ -39,8 +38,8 @@ class HelpCommandListener extends CommandListener
      */
     public function onCommand(BotCommandFoundEvent $event)
     {
-        $this->sendMessage($event, array($event->getNickname()), 'IrcBotBundle (https://github.com/whisller/IrcBotBundle)');
-        $this->sendMessage($event, array($event->getNickname()), 'Available commands:');
+        $this->sendMessage(array($event->getNickname()), 'IrcBotBundle (https://github.com/whisller/IrcBotBundle)');
+        $this->sendMessage(array($event->getNickname()), 'Available commands:');
 
         $this->commandsHolder->rewind();
         while ($this->commandsHolder->valid()) {
@@ -48,7 +47,7 @@ class HelpCommandListener extends CommandListener
 
             if (isset($current[0]['command'])) {
                 $msg = $this->commandPrefix.' '.$current[0]['command'].(isset($current[0]['arguments'])? ' '.$current[0]['arguments'] : '').(isset($current[0]['help']) ? ' : '.$current[0]['help']:'');
-                $this->sendMessage($event, array($event->getNickname()), $msg);
+                $this->sendMessage(array($event->getNickname()), $msg);
             }
 
             $this->commandsHolder->next();

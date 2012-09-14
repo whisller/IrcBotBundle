@@ -48,7 +48,7 @@
         <service id="whisnet_irc_bot.bot_command_seen_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\Commands\SeenCommandListener">
             <tag name="whisnet_irc_bot.bot_command" command="seen" help="Display when specified user were last seen" arguments="(username)"/>
             <tag name="kernel.event_listener" event="whisnet_irc_bot.bot_command_seen" method="onCommand"/>
-            <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PRIVMSG" method="updateInformation"/>
+            <tag name="kernel.event_listener" event="whisnet_irc_bot.irc_command_PRIVMSG" method="onUpdateInformation"/>
             <argument type="service" id="whisnet_irc_bot.connection"/>
             <call method="setCacheDir">
                 <argument type="string">%kernel.cache_dir%</argument>
