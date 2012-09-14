@@ -23,6 +23,6 @@ class PartCommandListener extends CommandListener
     {
         $data = $event->getArguments();
 
-        $this->connection->sendCommand(new PartCommand(new Message((isset($data[0]) ? $data[0] : ''))));
+        $this->connection->sendCommand(new PartCommand(array($data[0]), new Message((isset($data[1]) ? $data[1] : ''))));
     }
 }

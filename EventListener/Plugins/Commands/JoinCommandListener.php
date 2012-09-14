@@ -19,6 +19,6 @@ class JoinCommandListener extends CommandListener
      */
     public function onCommand(BotCommandFoundEvent $event)
     {
-        $event->getConnection()->sendCommand(new JoinCommand($event->getArguments()));
+        $this->connection->sendCommand(new JoinCommand($event->getArguments()));
     }
 }
