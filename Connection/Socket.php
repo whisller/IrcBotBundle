@@ -97,7 +97,7 @@ class Socket implements ConnectionInterface
      */
     public function disconnect()
     {
-        return stream_socket_shutdown($this->socket, STREAM_SHUT_WR);
+        return is_object($this->socket) ? stream_socket_shutdown($this->socket, STREAM_SHUT_WR) : false;
     }
 
     /**

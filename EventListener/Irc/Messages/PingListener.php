@@ -2,7 +2,7 @@
 namespace Whisnet\IrcBotBundle\EventListener\Irc\Messages;
 
 use Whisnet\IrcBotBundle\EventListener\Irc\BaseIrcListener;
-use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
+use Whisnet\IrcBotBundle\Event\IrcCommandFoundEvent;
 use Whisnet\IrcBotBundle\IrcCommands\PongCommand;
 
 /**
@@ -12,9 +12,9 @@ use Whisnet\IrcBotBundle\IrcCommands\PongCommand;
 class PingListener extends BaseIrcListener
 {
     /**
-     * @param BaseIrcEvent $event
+     * @param IrcCommandFoundEvent $event
      */
-    public function onData(BaseIrcEvent $event)
+    public function onData(IrcCommandFoundEvent $event)
     {
         $data = $event->getData();
 

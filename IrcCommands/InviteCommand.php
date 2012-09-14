@@ -4,31 +4,40 @@ namespace Whisnet\IrcBotBundle\IrcCommands;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * http://tools.ietf.org/html/rfc2812#section-3.1.2
+ * http://tools.ietf.org/html/rfc2812#section-3.2.7
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class NickCommand extends Command
+class InviteCommand extends Command
 {
     /**
+     * @var string
      * @NotBlank()
      */
     private $nickname;
+
+    /**
+     * @var string
+     * @NotBlank()
+     */
+    private $channel;
 
     /**
      * @return string
      */
     public function getName()
     {
-        return 'NICK';
+        return 'INVITE';
     }
 
     /**
      * @param string $nickname
+     * @param string $channel
      */
-    public function __construct($nickname)
+    public function __construct($nickname, $channel)
     {
         $this->setNickname($nickname);
+        $this->setChannel($channel);
     }
 
     /**
@@ -43,11 +52,22 @@ class NickCommand extends Command
     }
 
     /**
+     * @param string $channel
+     * @return InviteCommand
+     */
+    protected function setChannel($channel)
+    {
+        $this->channel = trim($channel);
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     protected function getArguments()
     {
-        $result = $this->nickname;
+        $result = $this->nickname.' '.$this->channel;
 
         return $result;
     }

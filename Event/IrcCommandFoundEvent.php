@@ -10,5 +10,4 @@ use Whisnet\IrcBotBundle\Event\BaseIrcEvent;
  */
 class IrcCommandFoundEvent extends BaseIrcEvent
 {
-    
 }

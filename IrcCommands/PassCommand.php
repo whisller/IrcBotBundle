@@ -4,40 +4,40 @@ namespace Whisnet\IrcBotBundle\IrcCommands;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * http://tools.ietf.org/html/rfc2812#section-3.1.2
+ * http://tools.ietf.org/html/rfc2812#section-3.1.1
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class NickCommand extends Command
+class PassCommand extends Command
 {
     /**
      * @NotBlank()
      */
-    private $nickname;
+    private $password;
 
     /**
      * @return string
      */
     public function getName()
     {
-        return 'NICK';
+        return 'PASS';
     }
 
     /**
-     * @param string $nickname
+     * @param string $password
      */
-    public function __construct($nickname)
+    public function __construct($password)
     {
-        $this->setNickname($nickname);
+        $this->setPassword($password);
     }
 
     /**
-     * @param string $nickname
-     * @return NickCommand
+     * @param string $password
+     * @return PassCommand
      */
-    protected function setNickname($nickname)
+    protected function setPassword($password)
     {
-        $this->nickname = trim($nickname);
+        $this->password = trim($password);
 
         return $this;
     }
@@ -47,7 +47,7 @@ class NickCommand extends Command
      */
     protected function getArguments()
     {
-        $result = $this->nickname;
+        $result = $this->password;
 
         return $result;
     }

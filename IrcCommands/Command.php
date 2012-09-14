@@ -70,6 +70,10 @@ abstract class Command implements CommandInterface
      */
     public function __toString()
     {
-        return $this->getName().' '.$this->getArguments().Command::POSTFIX;
+        $result = $this->getName();
+        $result .= 0 < mb_strlen($this->getArguments()) ? (' '.$this->getArguments()) : '';
+        $result .= Command::POSTFIX;
+
+        return $result;
     }
 }

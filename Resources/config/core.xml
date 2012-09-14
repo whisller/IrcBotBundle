@@ -12,8 +12,6 @@
             <argument type="service" id="event_dispatcher"/>
         </service>
 
-        <service id="whisnet_irc_bot.help" class="Whisnet\IrcBotBundle\Utils\Help" />
-
         <service id="whisnet_irc_bot.load_user_core_listener" class="Whisnet\IrcBotBundle\EventListener\Plugins\Core\LoadUserCoreListener">
             <tag name="kernel.event_listener" event="whisnet_irc_bot.post_connection" method="onCore"/>
             <argument type="service" id="whisnet_irc_bot.connection"/>

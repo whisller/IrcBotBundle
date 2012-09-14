@@ -4,24 +4,22 @@ namespace Whisnet\IrcBotBundle\IrcCommands;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
+ * http://tools.ietf.org/html/rfc2812#section-3.1.3
+ *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
 class UserCommand extends Command
 {
     /**
+     * @var string
      * @NotBlank()
      */
     private $username;
 
     /**
-     * @var string
+     * @var integer
      */
-    private $hostname;
-
-    /**
-     * @var string
-     */
-    private $servername;
+    private $mode;
 
     /**
      * @var string
@@ -36,11 +34,10 @@ class UserCommand extends Command
         return 'USER';
     }
 
-    public function __construct($username, $hostname = '', $servername = '', $realname = '')
+    public function __construct($username, $mode = 0, $realname = '')
     {
         $this->setUsername($username);
-        $this->setHostname($hostname);
-        $this->setServername($servername);
+        $this->setMode($mode);
         $this->setRealname($realname);
     }
 
@@ -56,23 +53,12 @@ class UserCommand extends Command
     }
 
     /**
-     * @param string $hostname
+     * @param integer $hostname
      * @return UserCommand
      */
-    protected function setHostname($hostname)
+    protected function setMode($mode)
     {
-        $this->hostname = trim($hostname);
-
-        return $this;
-    }
-
-    /**
-     * @param string $servername
-     * @return UserCommand
-     */
-    protected function setServername($servername)
-    {
-        $this->servername = trim($servername);
+        $this->mode = $mode;
 
         return $this;
     }
@@ -96,8 +82,8 @@ class UserCommand extends Command
         $result = '';
 
         $result = $this->username.' ';
-        $result .= (!empty($this->hostname) ? $this->hostname : 'example.com').' ';
-        $result .= (!empty($this->servername) ? $this->servername : $this->username).' ';
+        $result .= $this->mode;
+        $result .= ' * ';
         $result .= ':'.(!empty($this->realname) ? $this->realname : $this->username);
 
         return $result;

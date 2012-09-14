@@ -1,50 +1,47 @@
 <?php
 namespace Whisnet\IrcBotBundle\IrcCommands;
 
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Whisnet\IrcBotBundle\Message\Message;
-
 /**
- * http://tools.ietf.org/html/rfc2812#section-3.2.2
+ * http://tools.ietf.org/html/rfc2812#section-3.2.6
  *
  * @author Daniel Ancuta <whisller@gmail.com>
  */
-class PartCommand extends Command
+class ListCommand extends Command
 {
     /**
      * @var array
-     * @NotBlank()
      */
     private $channels;
 
     /**
-     * @var string
+     * @var string|false
      */
-    private $message;
+    private $target;
 
     /**
      * @return string
      */
     protected function getName()
     {
-        return 'PART';
+        return 'LIST';
     }
 
     /**
      * @param array $channels
+     * @param array $keys
      */
-    public function __construct(array $channels, Message $message = null)
+    public function __construct(array $channels=array(), $target=false)
     {
         foreach ($channels as $channel) {
             $this->addChannel($channel);
         }
 
-        $this->setMessage($message);
+        $this->setTarget($target);
     }
 
     /**
      * @param string $channel
-     * @return JoinCommand
+     * @return NamesCommand
      */
     protected function addChannel($channel)
     {
@@ -56,16 +53,11 @@ class PartCommand extends Command
     }
 
     /**
-     * @param Message $message
-     * @return PartCommand
+     * @param string|false $target
      */
-    protected function setMessage(Message $message = null)
+    protected function setTarget($target)
     {
-        if (null !== $message) {
-            $this->message = trim((string)$message);
-        }
-
-        return $this;
+        $this->target = $target;
     }
 
     /**
@@ -73,6 +65,9 @@ class PartCommand extends Command
      */
     protected function getArguments()
     {
-        return implode(',', $this->channels).(null !== $this->message ? (' '.$this->message) : '');
+        $result = 0 < count($this->channels) ? implode(',', $this->channels) : '';
+        $result .= 0 < mb_strlen($this->target) ? (' '.$this->target) : '';
+
+        return $result;
     }
 }

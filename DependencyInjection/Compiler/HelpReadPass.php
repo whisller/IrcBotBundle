@@ -2,8 +2,8 @@
 namespace Whisnet\IrcBotBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * @author Daniel Ancuta <whsiller@gmail.com>
@@ -11,20 +11,18 @@ use Doctrine\Common\Annotations\AnnotationReader;
 class HelpReadPass implements CompilerPassInterface
 {
     /**
-     * {@inheritDoc}
+     * @see Symfony\Component\DependencyInjection\Compiler.CompilerPassInterface::process()
      */
     public function process(ContainerBuilder $container)
     {
-        $reader = new AnnotationReader();
- 
-        $help = $container->get('whisnet_irc_bot.help');
+        if (!$container->hasDefinition('whisnet_irc_bot.commands_info_holder')) {
+            return;
+        }
 
-        foreach ($container->findTaggedServiceIds('whisnet_irc_bot.bot_command') as $id => $attr) {
-            $annotations = $reader->getClassAnnotations(new \ReflectionClass($container->get($id)));
+        $taggedServiceHolder = $container->getDefinition('whisnet_irc_bot.commands_info_holder');
 
-            if (is_array($annotations) && isset($annotations[0]) && is_object($annotations[0])) {
-                $help->add($annotations[0]->name, $annotations[0]->help, $annotations[0]->arguments);
-            }
+        foreach ($container->findTaggedServiceIds('whisnet_irc_bot.bot_command') as $id => $attributes) {
+            $taggedServiceHolder->addMethodCall('push', array($attributes));
         }
     }
 }
