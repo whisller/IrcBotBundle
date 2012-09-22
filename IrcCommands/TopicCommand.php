@@ -30,8 +30,8 @@ class TopicCommand extends Command
     }
 
     /**
-     * @param string $channel
-     * @param string|false $topic
+     * @param string       $channel
+     * @param false|string $topic
      */
     public function __construct($channel, $topic = false)
     {
@@ -40,7 +40,7 @@ class TopicCommand extends Command
     }
 
     /**
-     * @param string $channel
+     * @param  string       $channel
      * @return TopicCommand
      */
     protected function setChannel($channel)
@@ -51,7 +51,7 @@ class TopicCommand extends Command
     }
 
     /**
-     * @param string|false $topic
+     * @param  string|false $topic
      * @return TopicCommand
      */
     protected function setTopic($topic)

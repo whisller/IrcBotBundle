@@ -31,7 +31,7 @@ class PrivMsgCommand extends Command
     }
 
     /**
-     * @param array $receivers
+     * @param array   $receivers
      * @param Message $text
      */
     public function __construct(array $receivers, Message $text)
@@ -44,7 +44,7 @@ class PrivMsgCommand extends Command
     }
 
     /**
-     * @param string $receiver
+     * @param  string         $receiver
      * @return PrivMsgCommand
      */
     protected function addReceiver($receiver)
@@ -57,12 +57,12 @@ class PrivMsgCommand extends Command
     }
 
     /**
-     * @param Message $text
+     * @param  Message        $text
      * @return PrivMsgCommand
      */
     protected function setText(Message $text)
     {
-        $this->text = trim((string)$text);
+        $this->text = trim((string) $text);
 
         return $this;
     }

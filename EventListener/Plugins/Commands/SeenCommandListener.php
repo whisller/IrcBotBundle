@@ -38,9 +38,9 @@ class SeenCommandListener extends CommandListener
     }
 
     /**
-     * @param IrcCommandFoundEvent $event
+     * @param  IrcCommandFoundEvent $event
      * @throws CommandException
-     * @return boolean
+     * @return void
      */
     public function onUpdateInformation(IrcCommandFoundEvent $event)
     {
@@ -82,7 +82,7 @@ class SeenCommandListener extends CommandListener
 
         if (false !== $seenFile) {
             $seenArray = json_decode($seenFile, true);
-   
+
             unset($seenFile);
         } else {
             $seenArray = array();
@@ -97,8 +97,8 @@ class SeenCommandListener extends CommandListener
     }
 
     /**
-     * @param string $nickname
-     * @return false if no record is available, string if we found date
+     * @param  string $nickname
+     * @return false  if no record is available, string if we found date
      */
     private function readFromSeen($nickname)
     {

@@ -22,7 +22,7 @@ class HelpCommandListener extends CommandListener
     private $commandsHolder;
 
     /**
-     * @param string $commandPrefix
+     * @param string               $commandPrefix
      * @param \SplDoublyLinkedList $commandsHolder
      */
     public function setConfig($commandPrefix, \SplDoublyLinkedList $commandsHolder)

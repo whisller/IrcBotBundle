@@ -17,7 +17,7 @@ abstract class BaseIrcListener
     protected $dispatcher;
 
     /**
-     * @param ConnectionInterface $connection
+     * @param ConnectionInterface      $connection
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(ConnectionInterface $connection, EventDispatcherInterface $dispatcher)

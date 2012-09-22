@@ -45,7 +45,7 @@ class JoinCommand extends Command
     }
 
     /**
-     * @param string $channel
+     * @param  string      $channel
      * @return JoinCommand
      */
     protected function addChannel($channel)
@@ -58,7 +58,7 @@ class JoinCommand extends Command
     }
 
     /**
-     * @param string $key
+     * @param  string      $key
      * @return JoinCommand
      */
     protected function addKey($key)

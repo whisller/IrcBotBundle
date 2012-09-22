@@ -7,6 +7,7 @@ interface CommandInterface
 {
     /**
      * Set validator that will be used for validate arguments.
+     * @return void
      */
     public function setValidator(ValidatorInterface $validator);
 

@@ -43,8 +43,8 @@ class PartCommand extends Command
     }
 
     /**
-     * @param string $channel
-     * @return JoinCommand
+     * @param  string      $channel
+     * @return PartCommand
      */
     protected function addChannel($channel)
     {
@@ -56,13 +56,13 @@ class PartCommand extends Command
     }
 
     /**
-     * @param Message $message
+     * @param  null|Message $message
      * @return PartCommand
      */
     protected function setMessage(Message $message = null)
     {
         if (null !== $message) {
-            $this->message = trim((string)$message);
+            $this->message = trim((string) $message);
         }
 
         return $this;
