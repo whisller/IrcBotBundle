@@ -12,13 +12,15 @@ use Whisnet\IrcBotBundle\Event\BotCommandFoundEvent;
 interface CommandInterface
 {
     /**
-     * @param ConnectionInterface $connection
+     * @param  ConnectionInterface $connection
+     * @return void
      */
     public function __construct(ConnectionInterface $connection);
 
     /**
-     * @param BotCommandFoundEvent $event
-     * @throws CommandException If validation of command do not pass
+     * @param  BotCommandFoundEvent $event
+     * @throws CommandException     If validation of command do not pass
+     * @return void
      */
     public function onCommand(BotCommandFoundEvent $event);
 }

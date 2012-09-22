@@ -27,8 +27,8 @@ class NamesCommand extends Command
     }
 
     /**
-     * @param array $channels
-     * @param array $keys
+     * @param array   $channels
+     * @param boolean $target
      */
     public function __construct(array $channels=array(), $target=false)
     {
@@ -40,7 +40,7 @@ class NamesCommand extends Command
     }
 
     /**
-     * @param string $channel
+     * @param  string       $channel
      * @return NamesCommand
      */
     protected function addChannel($channel)

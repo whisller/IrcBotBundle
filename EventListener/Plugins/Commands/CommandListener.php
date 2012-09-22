@@ -26,7 +26,7 @@ abstract class CommandListener implements CommandInterface
     }
 
     /**
-     * @param array $receivers
+     * @param array  $receivers
      * @param string $msg
      */
     protected function sendMessage(array $receivers, $msg)

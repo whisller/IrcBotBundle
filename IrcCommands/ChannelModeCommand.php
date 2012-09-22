@@ -48,7 +48,7 @@ class ChannelModeCommand extends Command
     }
 
     /**
-     * @param string $channel
+     * @param  string             $channel
      * @return ChannelModeCommand
      */
     protected function setChannel($channel)
@@ -59,7 +59,7 @@ class ChannelModeCommand extends Command
     }
 
     /**
-     * @param string $mode
+     * @param  string             $mode
      * @return ChannelModeCommand
      */
     protected function setMode($mode)
@@ -70,7 +70,7 @@ class ChannelModeCommand extends Command
     }
 
     /**
-     * @param string $modeParams
+     * @param  string             $modeParams
      * @return ChannelModeCommand
      */
     protected function setModeParams($modeParams)
