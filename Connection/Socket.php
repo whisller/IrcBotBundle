@@ -36,6 +36,8 @@ use Whisnet\IrcBotBundle\Event\Connection\PostConnectionEvent;
 class Socket implements ConnectionInterface
 {
 
+    protected $transport;
+
     private $server = '';
 
     /**
@@ -63,8 +65,9 @@ class Socket implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($server, $port = 6667, ValidatorInterface $validator, EventDispatcherInterface $dispatcher)
+    public function __construct($transport, $server, $port = 6667, ValidatorInterface $validator, EventDispatcherInterface $dispatcher)
     {
+        $this->transport = $transport;
         $this->server = $server;
         $this->port = $port;
         $this->validator = $validator;
@@ -84,9 +87,9 @@ class Socket implements ConnectionInterface
      */
     public function connect()
     {
-        $this->socket = stream_socket_client($this->server.':'.$this->port);
+        $this->socket = stream_socket_client($this->transport.$this->server.':'.$this->port);
         if (!$this->isConnected()) {
-            throw new Exception('Unable to connect to server via fsockopen with server: "'.$this->server.'" and port: "'.$this->port.'".');
+            throw new Exception('Unable to connect to server via fsockopen with server: "'.$this->transport.$this->server.'" and port: "'.$this->port.'".');
         }
 
         $this->dispatcher->dispatch('whisnet_irc_bot.post_connection', new PostConnectionEvent());
@@ -106,7 +109,8 @@ class Socket implements ConnectionInterface
      */
     public function sendData($data)
     {
-        return fwrite($this->socket, $data);
+        // adding newline
+        return fwrite($this->socket, $data."\n\r");
     }
 
     /**

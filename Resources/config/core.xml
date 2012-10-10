@@ -6,6 +6,7 @@
 
     <services>
         <service id="whisnet_irc_bot.connection" class="%whisnet_irc_bot.connection_class%">
+            <argument type="string">%whisnet_irc_bot.transport%</argument>
             <argument type="string">%whisnet_irc_bot.host%</argument>
             <argument type="string">%whisnet_irc_bot.port%</argument>
             <argument type="service" id="validator"/>
