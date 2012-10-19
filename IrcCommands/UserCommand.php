@@ -42,7 +42,7 @@ class UserCommand extends Command
     }
 
     /**
-     * @param string $username
+     * @param  string      $username
      * @return UserCommand
      */
     protected function setUsername($username)
@@ -53,8 +53,8 @@ class UserCommand extends Command
     }
 
     /**
-     * @param integer $hostname
      * @return UserCommand
+     * @param  integer     $mode
      */
     protected function setMode($mode)
     {
@@ -64,7 +64,7 @@ class UserCommand extends Command
     }
 
     /**
-     * @param string $realname
+     * @param  string      $realname
      * @return UserCommand
      */
     protected function setRealname($realname)

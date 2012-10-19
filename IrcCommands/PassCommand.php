@@ -32,7 +32,7 @@ class PassCommand extends Command
     }
 
     /**
-     * @param string $password
+     * @param  string      $password
      * @return PassCommand
      */
     protected function setPassword($password)

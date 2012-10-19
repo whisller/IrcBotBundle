@@ -40,7 +40,7 @@ abstract class Command implements CommandInterface
             $errorMessages = array();
 
             foreach ($errors as $error) {
-                $errorMessages[] = (string)$error;
+                $errorMessages[] = (string) $error;
             }
 
             throw new CommandException(implode("\n", $errorMessages));

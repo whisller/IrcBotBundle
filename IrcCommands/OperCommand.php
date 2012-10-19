@@ -41,7 +41,7 @@ class OperCommand extends Command
     }
 
     /**
-     * @param string $name
+     * @param  string      $name
      * @return OperCommand
      */
     protected function setName($name)
@@ -52,7 +52,7 @@ class OperCommand extends Command
     }
 
     /**
-     * @param string $password
+     * @param  string      $password
      * @return OperCommand
      */
     protected function setPassword($password)

@@ -7,8 +7,8 @@ namespace Whisnet\IrcBotBundle\Utils;
 class Utils
 {
     /**
-     * @param string $data
-     * @return string
+     * @param  string $data
+     * @return mixed
      */
     public static function cleanUpServerRequest($data)
     {

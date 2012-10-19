@@ -31,7 +31,7 @@ class PongCommand extends Command
     }
 
     /**
-     * @param string $daemon
+     * @param  string      $daemon
      * @return PongCommand
      */
     protected function addDaemon($daemon)

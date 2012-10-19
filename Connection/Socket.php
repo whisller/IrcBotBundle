@@ -35,7 +35,7 @@ use Whisnet\IrcBotBundle\Event\Connection\PostConnectionEvent;
  */
 class Socket implements ConnectionInterface
 {
-    
+
     private $server = '';
 
     /**
@@ -102,6 +102,7 @@ class Socket implements ConnectionInterface
 
     /**
      * {@inheritdoc}
+     * @param string $data
      */
     public function sendData($data)
     {
@@ -116,7 +117,7 @@ class Socket implements ConnectionInterface
         $command->setValidator($this->validator);
         $command->validate();
 
-        $this->sendData((string)$command);
+        $this->sendData((string) $command);
     }
 
     /**
