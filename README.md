@@ -104,7 +104,7 @@ class HelloListener extends CommandListener
         $msg = 'Hi, '.(isset($args[0]) ? $args[0] : 'nobody').' !';
 
         // write to the current channel
-        $this->sendMessage($event, array($event->getChannel()), $msg);
+        $this->sendMessage(array($event->getChannel()), $msg);
     }
 }
 ```
