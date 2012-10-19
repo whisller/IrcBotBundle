@@ -3,8 +3,6 @@ namespace Whisnet\IrcBotBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-use Whisnet\IrcBotBundle\Connection\Socket;
-
 class BaseIrcEvent extends Event
 {
     /**
