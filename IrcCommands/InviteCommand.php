@@ -41,8 +41,8 @@ class InviteCommand extends Command
     }
 
     /**
-     * @param string $nickname
-     * @return NickCommand
+     * @param  string        $nickname
+     * @return InviteCommand
      */
     protected function setNickname($nickname)
     {
@@ -52,7 +52,7 @@ class InviteCommand extends Command
     }
 
     /**
-     * @param string $channel
+     * @param  string        $channel
      * @return InviteCommand
      */
     protected function setChannel($channel)

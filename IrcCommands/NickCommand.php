@@ -32,7 +32,7 @@ class NickCommand extends Command
     }
 
     /**
-     * @param string $nickname
+     * @param  string      $nickname
      * @return NickCommand
      */
     protected function setNickname($nickname)

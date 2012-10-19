@@ -27,8 +27,8 @@ class ListCommand extends Command
     }
 
     /**
-     * @param array $channels
-     * @param array $keys
+     * @param array   $channels
+     * @param boolean $target
      */
     public function __construct(array $channels=array(), $target=false)
     {
@@ -40,8 +40,8 @@ class ListCommand extends Command
     }
 
     /**
-     * @param string $channel
-     * @return NamesCommand
+     * @param  string      $channel
+     * @return ListCommand
      */
     protected function addChannel($channel)
     {

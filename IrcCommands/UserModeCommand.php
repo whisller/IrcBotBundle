@@ -41,7 +41,7 @@ class UserModeCommand extends Command
     }
 
     /**
-     * @param string $nickname
+     * @param  string          $nickname
      * @return UserModeCommand
      */
     protected function setNickname($nickname)
@@ -52,7 +52,7 @@ class UserModeCommand extends Command
     }
 
     /**
-     * @param string $mode
+     * @param  string          $mode
      * @return UserModeCommand
      */
     protected function setMode($mode)

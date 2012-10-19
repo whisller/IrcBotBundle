@@ -5,6 +5,7 @@ use Whisnet\IrcBotBundle\Event\Connection\PostConnectionEvent;
 use Whisnet\IrcBotBundle\IrcCommands\UserCommand;
 use Whisnet\IrcBotBundle\IrcCommands\NickCommand;
 use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
+use Whisnet\IrcBotBundle\IrcCommands\PassCommand;
 
 /**
  * Listener is used after connection to the server is established to setup basic information about user,
@@ -29,8 +30,14 @@ class LoadUserCoreListener extends CoreListener
      */
     public function onCore(PostConnectionEvent $event)
     {
+        if($this->user['password'] !== '')
+        {
+            $this->connection->sendCommand(new PassCommand($this->user['password']));
+        }
+
         $this->connection->sendCommand(new UserCommand($this->user['username'], $this->user['mode'], $this->user['realname']));
         $this->connection->sendCommand(new NickCommand($this->user['username']));
+        sleep(10); // allow the bot to connect and authenticate: this is a hack @todo: fix
         $this->connection->sendCommand(new JoinCommand($this->channels));
     }
 

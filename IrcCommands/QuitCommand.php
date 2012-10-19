@@ -24,7 +24,7 @@ class QuitCommand extends Command
     }
 
     /**
-     * @param Message $message
+     * @param null|Message $message
      */
     public function __construct(Message $message = null)
     {
@@ -32,13 +32,13 @@ class QuitCommand extends Command
     }
 
     /**
-     * @param Message $message
+     * @param  null|Message $message
      * @return QuitCommand
      */
     protected function setMessage(Message $message = null)
     {
         if (null !== $message) {
-            $this->message = (string)$message;
+            $this->message = (string) $message;
         }
 
         return $this;

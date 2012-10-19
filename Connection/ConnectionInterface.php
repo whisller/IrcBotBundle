@@ -37,14 +37,17 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 interface ConnectionInterface
 {
     /**
-     * @param string $server
-     * @param integer $port
-     * @param ValidatorInterface $validator
+     * @param  string             $transport
+     * @param  string             $server
+     * @param  integer            $port
+     * @param  ValidatorInterface $validator
+     * @return void
      */
-    public function __construct($server, $port = 6667, ValidatorInterface $validator, EventDispatcherInterface $dispatcher);
+    public function __construct($transport, $server, $port = 6667, ValidatorInterface $validator, EventDispatcherInterface $dispatcher);
 
     /**
      * Establishs the connection to the server.
+     * @return void
      */
     public function connect();
 

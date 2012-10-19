@@ -9,7 +9,8 @@ use Whisnet\IrcBotBundle\Connection\ConnectionInterface;
 interface CoreInterface
 {
     /**
-     * @param ConnectionInterface $connection
+     * @param  ConnectionInterface $connection
+     * @return void
      */
     public function __construct(ConnectionInterface $connection);
 }

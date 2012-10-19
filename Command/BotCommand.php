@@ -6,9 +6,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Whisnet\IrcBotBundle\Event\DataFromServerEvent;
-use Whisnet\IrcBotBundle\IrcCommands\UserCommand;
-use Whisnet\IrcBotBundle\IrcCommands\NickCommand;
-use Whisnet\IrcBotBundle\IrcCommands\JoinCommand;
 use Whisnet\IrcBotBundle\Utils\Utils;
 
 /**
@@ -33,6 +30,6 @@ class BotCommand extends ContainerAwareCommand
 
         do {
             $dispatcher->dispatch('whisnet_irc_bot.data_from_server', new DataFromServerEvent(Utils::cleanUpServerRequest($socket->getData())));
-        } while(true);
+        } while (true);
     }
 }

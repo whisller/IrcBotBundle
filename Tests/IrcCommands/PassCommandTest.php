@@ -7,6 +7,6 @@ class PassCommandTest extends \PHPUnit_Framework_TestCase
 {
     public function test__toString()
     {
-        $this->assertEquals("PASS foo\r", (string)new PassCommand('foo'));
+        $this->assertEquals("PASS foo\r", (string) new PassCommand('foo'));
     }
 }

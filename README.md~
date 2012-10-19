@@ -61,12 +61,10 @@ whisnet_irc_bot:
     host: irc.freenode.net
     port: 6667
     command_prefix: !bot
-    transport: 'ssl://' # default is blank
     user:
         username: IrcBotBunle
         mode: 8
         servername: IrcBotBundle
-        password: 'drowssap' #default is blank
     channels: ["#test-irc", "#test-other-irc"]
 ```
 
@@ -106,7 +104,7 @@ class HelloListener extends CommandListener
         $msg = 'Hi, '.(isset($args[0]) ? $args[0] : 'nobody').' !';
 
         // write to the current channel
-        $this->sendMessage(array($event->getChannel()), $msg);
+        $this->sendMessage($event, array($event->getChannel()), $msg);
     }
 }
 ```

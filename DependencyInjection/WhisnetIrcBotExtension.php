@@ -31,6 +31,8 @@ class WhisnetIrcBotExtension extends Extension
 
         $container->setParameter('whisnet_irc_bot.connection_class', $config['connection_class']);
         $container->setParameter('whisnet_irc_bot.user', $config['user']);
+        //$container->setParameter('whisnet_irc_bot.password', $config['password']);
+        $container->setParameter('whisnet_irc_bot.transport', $config['transport']);
         $container->setParameter('whisnet_irc_bot.host', $config['host']);
         $container->setParameter('whisnet_irc_bot.port', $config['port']);
         $container->setParameter('whisnet_irc_bot.channels', $config['channels']);
