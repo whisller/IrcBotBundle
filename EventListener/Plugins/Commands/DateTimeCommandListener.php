@@ -28,6 +28,6 @@ class DateTimeCommandListener extends CommandListener
 
         $dateTime = new \DateTime('now', new \DateTimeZone($timezone));
 
-        $this->sendMessage(array($event->getChannel()), $dateTime->format('Y-m-d H:i:s'));
+        $this->sendMessage(array($event->getChannel()), $dateTime->format('Y-m-d H:i:s').' '.$timezone);
     }
 }

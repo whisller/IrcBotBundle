@@ -30,7 +30,7 @@ class SeenCommandListener extends CommandListener
         } else {
             $seen = $this->readFromSeen($arguments[0]);
             if ($seen) {
-                $this->sendMessage(array($event->getChannel()), $event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen);
+                $this->sendMessage(array($event->getChannel()), $event->getNickname().' I\'ve seen '.$arguments[0].' at '.$seen.' '.date_default_timezone_get());
             } else {
                 $this->noInformationAvailable($event);
             }
@@ -75,6 +75,7 @@ class SeenCommandListener extends CommandListener
     /**
      * @param string $nickname
      * @param string $date
+     * @return SeenCommandListener
      */
     private function writeToSeen($nickname, $date)
     {
