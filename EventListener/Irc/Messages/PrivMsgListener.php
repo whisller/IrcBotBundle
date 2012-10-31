@@ -18,8 +18,9 @@ class PrivMsgListener extends BaseIrcListener
     private $botCommandPrefix;
 
     /**
-     * @param ConnectionInterface $dispatcher
+     * @param ConnectionInterface $connection
      * @param EventDispatcherInterface $dispatcher
+     * @param string $botCommandPrefix
      */
     public function __construct(ConnectionInterface $connection, EventDispatcherInterface $dispatcher, $botCommandPrefix)
     {
@@ -29,7 +30,8 @@ class PrivMsgListener extends BaseIrcListener
     }
 
     /**
-     * @param BaseIrcEvent $event
+     * @param IrcCommandFoundEvent $event
+     * @return void
      */
     public function onData(IrcCommandFoundEvent $event)
     {
@@ -51,7 +53,7 @@ class PrivMsgListener extends BaseIrcListener
      * Check if message from server has a bot command.
      *
      * @param string $message
-     * @return array if is bot command false otherwise
+     * @return array|false if is bot command false otherwise
      */
     private function isBotCommand($message)
     {
